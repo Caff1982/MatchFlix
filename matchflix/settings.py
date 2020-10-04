@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'accounts.apps.AccountsConfig',
     'core.apps.CoreConfig',
+    'flix.apps.FlixConfig',
     'crispy_forms',
 ]
 

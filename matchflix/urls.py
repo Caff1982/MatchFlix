@@ -8,6 +8,7 @@ from accounts.views import RegistrationView, ProfileView
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('core.urls')),
+    path('flix/', include('flix.urls')),
 
     path('register/', RegistrationView.as_view(), name='register'),
     path('profile/', ProfileView.as_view(), name='profile'),

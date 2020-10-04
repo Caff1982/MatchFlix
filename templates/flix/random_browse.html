@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+<div class="col-md-8 mt-3"> 
+	<p>Title: {{ show.title }}</p>
+	<p>Description: {{ show.description }}</p>
+	<p>Year: {{ show.release_year }}</p>
+
+	<form method="POST">
+		{% csrf_token %}
+		<input type="hidden" name="like" value="{{ show.title }}">{{ form|crispy }}<button type="submit"
+        class="btn btn-primary btn-block">Like</button>
+    </form>
+</div>
+
+{% endblock %}
