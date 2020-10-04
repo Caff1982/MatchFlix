@@ -1,9 +1,10 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.db.models import Max
 
 import random
 
 from .models import Show
+from accounts.models import Account
 
 
 def get_random_show():
@@ -16,8 +17,11 @@ def get_random_show():
 
 def random_browse(request):
     if request.method == 'POST':
-        print('Request.user: ', request.user)
-        print('request POST: ', request.POST)
+        user = request.user
+
+        last_show = Show.objects.filter(id=request.POST['show_id']).first()
+        print(last_show)
+        user.likes.add(last_show)
     show = get_random_show()
     context = {
         'show': show

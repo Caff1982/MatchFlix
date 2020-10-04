@@ -3,6 +3,7 @@ from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, Permis
 from django.contrib.auth import get_user_model
 from django.utils import timezone
 
+from flix.models import Show
 
 class AccountManager(BaseUserManager):
     use_in_migrations = True
@@ -50,6 +51,8 @@ class Account(AbstractBaseUser, PermissionsMixin):
     date_joined = models.DateTimeField(default=timezone.now)
     last_login = models.DateTimeField(null=True)
 
+    likes = models.ManyToManyField(Show, blank=True)
+
     objects = AccountManager()
 
     USERNAME_FIELD = 'email'
@@ -60,3 +63,9 @@ class Account(AbstractBaseUser, PermissionsMixin):
 
     def get_short_name(self):
         return self.name.split()[0]
+
+    def view_likes(self):
+        """
+        Used to display manytomany relationship
+        """
+        return '\n'.join([str(show) for show in self.likes.all()])

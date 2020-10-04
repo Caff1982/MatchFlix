@@ -9,11 +9,12 @@ class AccountAdmin(BaseUserAdmin):
     form = UserChangeForm
     add_form = UserCreationForm
 
-    list_display = ('email', 'name', 'date_of_birth', 'is_staff',  'is_superuser')
+    list_display = ('email', 'name', 'date_of_birth',
+                    'is_staff',  'is_superuser', 'view_likes')
     list_filter = ('is_superuser',)
 
     fieldsets = (
-        (None, {'fields': ('email', 'is_staff', 'is_superuser', 'password')}),
+        (None, {'fields': ('email', 'is_staff', 'is_superuser', 'password', 'likes')}),
         ('Personal info', {'fields': ('name', 'date_of_birth')}),
         ('Groups', {'fields': ('groups',)}),
         ('Permissions', {'fields': ('user_permissions',)}),
@@ -28,6 +29,7 @@ class AccountAdmin(BaseUserAdmin):
     search_fields = ('email', 'name')
     ordering = ('email',)
     filter_horizontal = ()
+
 
 
 admin.site.register(Account, AccountAdmin)
