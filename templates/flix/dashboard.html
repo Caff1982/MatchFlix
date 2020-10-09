@@ -1,5 +1,32 @@
 {% extends 'base.html' %}
+{% load crispy_forms_tags %}
 {% block content %}
-<h2>Welcome {{ user.name }}!</h2>
+
+<h1>Welcome {{ user.name }}!</h1>
+<h3>Your Friends:</h3>
+<ul>
+	{% for friend in user.friends.all %}
+	<li>
+		<a href="{% url 'profile_view' friend.id %}">{{ friend.name }}</a>
+	</li>
+	{% endfor %}
+</ul>
+
+<h3>Your Likes:</h3>
+<ul>
+	{% for show in user.likes.all %}
+	<li>
+		<a href="{% url 'detail_view' show.id %}">{{ show.title }}</a>
+	</li>
+	{% endfor %}
+</ul>
+
+<form action="{% url 'friend_search' %}" method="GET">
+	<input type="text" name="q" placeholder="Search for friends...">
+</form>
+
+<form action="{% url 'show_search' %}" method="GET">
+	<input type="text" name="q" placeholder="Search for shows...">
+</form>
 
 {% endblock %}

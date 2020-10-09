@@ -3,15 +3,16 @@
 {% block content %}
 
 <div class="col-md-8 mt-3">
-	{% if image_exists %}
-	<img id="show-image" src="/media/images/{{ show.show_id }}.jpg">
-	{% else %}
-	<img id="show-image" src="/media/images/default_image.png">
-	{% endif %}
-	
-	<p>Title: {{ show.title }}</p>
-	<p>Description: {{ show.description }}</p>
+	<a href="{% url 'detail_view' pk=show.id %}">
+		{% if image_exists %}
+		<img id="show-image" src="/media/images/{{ show.show_id }}.jpg">
+		{% else %}
+		<img id="show-image" src="/media/images/default_image.png">
+		{% endif %}
+	</a>
+
 	<p>Year: {{ show.release_year }}</p>
+	<p>Title: {{ show.title }}</p>
 	
 	<form method="POST">
 		{% csrf_token %}

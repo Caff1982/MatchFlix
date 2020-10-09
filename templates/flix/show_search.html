@@ -1,0 +1,16 @@
+{%  extends 'base.html' %}
+{% block content %}
+
+<h1>Search Results</h1>
+
+<ul>
+	{% for show in show_list %}
+	<a href="{% url 'detail_view' show.id %}">
+		<li>
+			{{ show.title }}
+			{{ show.release_year }}
+		</li>
+	</a>
+	{% endfor %}
+</ul>
+{% endblock %}
