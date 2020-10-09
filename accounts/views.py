@@ -9,15 +9,16 @@ from django.shortcuts import render
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import ListView
 from django.views.generic.edit import CreateView, UpdateView
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
+from django.http import HttpResponse
 
 from .models import Account
-from .forms import RegistrationForm
+from .forms import UserCreationForm
 
 
 class RegistrationView(CreateView):
     template_name = 'registration/register.html'
-    form_class = RegistrationForm
+    form_class = UserCreationForm
 
     def get_context_data(self, *args, **kwargs):
         context = super(RegistrationView, self).get_context_data(*args, **kwargs)
@@ -30,7 +31,7 @@ class RegistrationView(CreateView):
         if next_url:
             success_url += '?next={}'.format(next_url)
 
-        return success_url
+        return reverse('login')
 
 
 class ProfileView(UpdateView):
@@ -39,7 +40,7 @@ class ProfileView(UpdateView):
     template_name = 'registration/profile.html'
 
     def get_success_url(self):
-        return reverse('index')
+        return '/flix/'
 
     def get_object(self):
         return self.request.user

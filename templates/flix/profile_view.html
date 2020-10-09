@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+<h1>Username: {{ account.name }}</h1>
+<h3>Email: {{ account.email }}</h3>
+{% if account.date_of_birth %}
+<h3>Date of birth: {{ account.date_of_birth }}</h3>
+{% else %}
+<h3>Date of birth: N/A</h3>
+{% endif %}
+<h2>Likes:</h2>
+{% for item in account.likes.all %}
+	{{ account.title }}
+	{{ account.release_year }}
+{% endfor %}
+
+{% if user.is_authenticated and user.id != account.id %}
+<form method="POST">
+	{% csrf_token %}
+	<input type="hidden" name="add_friend" value="{{ account.id }}">{{ form|crispy }}<button type="submit"
+    class="btn btn-primary btn-block">Add Friend</button>
+</form>
+{% endif %}
+
+
+{% endblock %}

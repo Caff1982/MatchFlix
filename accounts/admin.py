@@ -10,11 +10,11 @@ class AccountAdmin(BaseUserAdmin):
     add_form = UserCreationForm
 
     list_display = ('email', 'name', 'date_of_birth',
-                    'is_staff',  'is_superuser', 'view_likes')
+                    'is_staff',  'is_superuser', 'users_likes', 'users_friends')
     list_filter = ('is_superuser',)
 
     fieldsets = (
-        (None, {'fields': ('email', 'is_staff', 'is_superuser', 'password', 'likes')}),
+        (None, {'fields': ('email', 'is_staff', 'is_superuser', 'password', 'likes', 'friends')}),
         ('Personal info', {'fields': ('name', 'date_of_birth')}),
         ('Groups', {'fields': ('groups',)}),
         ('Permissions', {'fields': ('user_permissions',)}),
@@ -28,7 +28,7 @@ class AccountAdmin(BaseUserAdmin):
 
     search_fields = ('email', 'name')
     ordering = ('email',)
-    filter_horizontal = ()
+    filter_horizontal = ('likes', 'friends')
 
 
 

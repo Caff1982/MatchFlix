@@ -52,11 +52,15 @@ class Account(AbstractBaseUser, PermissionsMixin):
     last_login = models.DateTimeField(null=True)
 
     likes = models.ManyToManyField(Show, blank=True)
+    friends = models.ManyToManyField('Account', blank=True)
 
     objects = AccountManager()
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['name']
+
+    def __str__(self):
+        return self.name
 
     def get_full_name(self):
         return self.name
@@ -64,8 +68,14 @@ class Account(AbstractBaseUser, PermissionsMixin):
     def get_short_name(self):
         return self.name.split()[0]
 
-    def view_likes(self):
+    def users_likes(self):
         """
-        Used to display manytomany relationship
+        Used to display likes field as list in admin page
         """
         return '\n'.join([str(show) for show in self.likes.all()])
+
+    def users_friends(self):
+        """
+        Used to display friends field as list in admin page
+        """
+        return '\n'.join([str(friend) for friend in self.friends.all()])
