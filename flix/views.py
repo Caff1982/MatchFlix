@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404
-from django.db.models import Max
+from django.db.models import Max, Min
 from django.views.generic import ListView
 
 import random
@@ -26,7 +26,8 @@ def get_random_show():
     row from Show database table
     """
     max_id = Show.objects.all().aggregate(max_id=Max('id'))['max_id']
-    pk = random.randint(1, max_id)
+    min_id = Show.objects.all().aggregate(min_id=Min('id'))['min_id']
+    pk = random.randint(min_id, max_id)
     return Show.objects.get(pk=pk)
 
 def dashboard(request):
@@ -42,6 +43,7 @@ def random_browse(request):
         user.likes.add(last_show)
 
     show = get_random_show()
+    print('Show id: ', show.id)
     # Check if image for the show exists
     image_path = f'media/images/{show.show_id}.jpg'
     if os.path.exists(image_path):

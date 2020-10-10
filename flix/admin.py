@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Show
+from .models import Show, Category, Country
 
 
 # class ShowAdmin(admin.ModelAdmin):
@@ -8,5 +8,6 @@ from .models import Show
 #                     'release_year', 'rating', 'duration', 'description')
 #     list_filter = ('is_movie',)
 
-
 admin.site.register(Show)
+admin.site.register(Category)
+admin.site.register(Country)

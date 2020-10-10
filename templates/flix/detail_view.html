@@ -19,11 +19,13 @@
 	{% endif %}
 	<p>Duration: {{ show.duration }}</p>
 	<p>Rating: {{ show.rating }}</p>
+	<p>Category: {% for category in show.category.all %}{{ category }}{% endfor %}</p>
+	<p>Country: {% for country in show.country.all %}{{ country }}{% endfor %}</p>
 
 	<form method="POST">
 		{% csrf_token %}
-		<input type="hidden" name="show_id" value="{{ show.id }}">{{ form|crispy }}<button type="submit"
-        class="btn btn-primary btn-block">Like</button>
+		<input type="hidden" name="show_id" value="{{ show.id }}">{{ form|crispy }}
+		<button type="submit" class="btn btn-primary btn-block">Like</button>
     </form>
 </div>
 
