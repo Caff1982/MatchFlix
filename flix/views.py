@@ -10,15 +10,21 @@ from accounts.models import Account
 
 
 def friend_search(request):
-    q = request.GET['q']
-    user_list = Account.objects.filter(name__icontains=q)
-    return render(request, 'flix/friend_search.html', {'user_list': user_list})
+    q = request.GET.get('q')
+    if q is not None:
+        user_list = Account.objects.filter(name__icontains=q)
+        return render(request, 'flix/friend_search.html', {'user_list': user_list})
+    else:
+        return render(request, 'flix/friend_search.html')
 
 def show_search(request):
-    q = request.GET['q']
-    show_list = Show.objects.filter(title__icontains=q)
-    print('Show list: ', show_list)
-    return render(request, 'flix/show_search.html', {'show_list': show_list})
+    q = request.GET.get('q')
+    print('q: ', q)
+    if q is not None:
+        show_list = Show.objects.filter(title__icontains=q)
+        return render(request, 'flix/show_search.html', {'show_list': show_list})
+    else:
+        return render(request, 'flix/show_search.html')
 
 def get_random_show():
     """

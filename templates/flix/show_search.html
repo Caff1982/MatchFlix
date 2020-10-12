@@ -1,7 +1,10 @@
 {%  extends 'base.html' %}
 {% block content %}
 
-<h1>Search Results</h1>
+<h1>Search Shows</h1>
+<form action="{% url 'show_search' %}" method="GET">
+	<input type="text" name="q" placeholder="Search for shows...">
+</form>
 
 <ul>
 	{% for show in show_list %}

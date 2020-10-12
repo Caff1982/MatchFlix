@@ -22,6 +22,8 @@
 	<p>Category: {% for category in show.category.all %}{{ category }}{% endfor %}</p>
 	<p>Country: {% for country in show.country.all %}{{ country }}{% endfor %}</p>
 
+	<a href="https://www.netflix.com/title/{{ show.show_id }}" target="_blank">Watch on Netflix</a>
+
 	<form method="POST">
 		{% csrf_token %}
 		<input type="hidden" name="show_id" value="{{ show.id }}">{{ form|crispy }}

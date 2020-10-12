@@ -13,12 +13,12 @@ from django.urls import reverse, reverse_lazy
 from django.http import HttpResponse
 
 from .models import Account
-from .forms import UserCreationForm
+from .forms import UserCreationForm, RegistrationForm
 
 
 class RegistrationView(CreateView):
     template_name = 'registration/register.html'
-    form_class = UserCreationForm
+    form_class = RegistrationForm
 
     def get_context_data(self, *args, **kwargs):
         context = super(RegistrationView, self).get_context_data(*args, **kwargs)

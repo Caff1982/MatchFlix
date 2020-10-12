@@ -10,9 +10,9 @@
 <h3>Date of birth: N/A</h3>
 {% endif %}
 <h2>Likes:</h2>
-{% for item in account.likes.all %}
-	{{ account.title }}
-	{{ account.release_year }}
+{% for show in account.likes.all %}
+	{{ show.title }}
+	{{ show.release_year }}
 {% endfor %}
 
 {% if user.is_authenticated and user.id != account.id %}
