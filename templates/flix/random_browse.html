@@ -17,13 +17,13 @@
 	<form method="POST">
 		{% csrf_token %}
 		<input type="hidden" name="show_id" value="{{ show.id }}">{{ form|crispy }}<button type="submit"
-        class="btn btn-primary btn-block">Like</button>
+        class="btn btn-dark btn-block">Like</button>
     </form>
     <p></p>
     <form method="GET">
 		{% csrf_token %}
 		{{ form|crispy }}<button type="submit"
-        class="btn btn-primary btn-block">Next</button>
+        class="btn btn-dark btn-block">Next</button>
     </form>
 </div>
 

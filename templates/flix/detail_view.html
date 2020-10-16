@@ -27,7 +27,7 @@
 	<form method="POST">
 		{% csrf_token %}
 		<input type="hidden" name="show_id" value="{{ show.id }}">{{ form|crispy }}
-		<button type="submit" class="btn btn-primary btn-block">Like</button>
+		<button type="submit" class="btn btn-dark btn-block">Like</button>
     </form>
 </div>
 

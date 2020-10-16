@@ -4,18 +4,18 @@
 
 <h1>Welcome {{ user.name }}!</h1>
 <h3>Your Friends:</h3>
-<ul>
+<ul class="list-group">
 	{% for friend in user.friends.all %}
-	<li>
+	<li class="list-group-item">
 		<a href="{% url 'profile_view' friend.id %}">{{ friend.name }}</a>
 	</li>
 	{% endfor %}
 </ul>
 
 <h3>Your Likes:</h3>
-<ul>
+<ul class="list-group">
 	{% for show in user.likes.all %}
-	<li>
+	<li class="list-group-item">
 		<a href="{% url 'detail_view' show.id %}">{{ show.title }}</a>
 	</li>
 	{% endfor %}

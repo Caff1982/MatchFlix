@@ -19,7 +19,6 @@ def friend_search(request):
 
 def show_search(request):
     q = request.GET.get('q')
-    print('q: ', q)
     if q is not None:
         show_list = Show.objects.filter(title__icontains=q)
         return render(request, 'flix/show_search.html', {'show_list': show_list})
@@ -80,14 +79,16 @@ def detail_view(request, pk):
         'show': show,
         'image_exists': image_exists
     }
-
     return render(request, 'flix/detail_view.html', context)
 
 def profile_view(request, pk):
     account = Account.objects.filter(id=pk).first()
     if request.method == 'POST':
         user = request.user
-        user.friends.add(account)
+        if account in user.friends.all():
+            user.friends.remove(account)
+        else:
+            user.friends.add(account)
     context = {
         'account': account,
     }

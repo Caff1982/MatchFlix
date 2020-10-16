@@ -3,13 +3,13 @@
 
 <h1>Search Shows</h1>
 <form action="{% url 'show_search' %}" method="GET">
-	<input type="text" name="q" placeholder="Search for shows...">
+	<input type="text" name="q" placeholder="Search by name...">
 </form>
 
-<ul>
+<ul class="list-group">
 	{% for show in show_list %}
 	<a href="{% url 'detail_view' show.id %}">
-		<li>
+		<li class="list-group-item">
 			{{ show.title }}
 			{{ show.release_year }}
 		</li>

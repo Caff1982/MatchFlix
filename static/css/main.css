@@ -1,3 +1,31 @@
 body {
     padding-top: 5rem;
+    background-color: #F0F0F0;
 }
+
+a {
+	color: #333333;
+	transition: color 1s;
+}
+
+a:hover {
+	color: red;
+}
+
+.list-group-item {
+	background-color: #F0F0F0;
+}
+
+#navbar-logo {
+	color: red;
+	margin-right: 5vw;
+}
+
+.fas {
+	transition: color 1.2s;
+}
+
+.fas:hover {
+	color: gray;
+}
+
