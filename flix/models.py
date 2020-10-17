@@ -40,9 +40,15 @@ class Show(models.Model):
     rating = models.CharField(max_length=50, null=True, blank=True)
     duration = models.CharField(max_length=20)
     description = models.CharField(max_length=250)
+    image = models.ImageField(upload_to='images',
+                              default='default.png')
 
     category = models.ManyToManyField(Category)
     country = models.ManyToManyField(Country)
 
     def __str__(self):
         return self.title
+
+    class Meta:
+        verbose_name_plural = 'Shows'
+        ordering = ['title']

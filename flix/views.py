@@ -5,7 +5,7 @@ from django.views.generic import ListView
 import random
 import os
 
-from .models import Show
+from .models import Show, Category, Country
 from accounts.models import Account
 
 
@@ -23,7 +23,8 @@ def show_search(request):
     director_query = request.GET.get('director')
     year_query = request.GET.get('year')
     is_movie_query = request.GET.get('is_movie')
-    print('Is movie query: ', is_movie_query)
+    category_query = request.GET.get('category')
+    country_query = request.GET.get('country')
 
     if name_query:
         queryset = queryset.filter(title__icontains=name_query)
@@ -36,9 +37,20 @@ def show_search(request):
             queryset = queryset.filter(is_movie=True)
         elif is_movie_query == 'tv':
             queryset = queryset.filter(is_movie=False)
+    if category_query:
+        if category_query != 'all':
+            queryset = queryset.filter(category__name=category_query)
+    if country_query:
+        print('country_query: ', country_query)
+        if country_query != 'all':
+            queryset = queryset.filter(country__name=country_query)
 
+    categories = Category.objects.all()
+    countries = Country.objects.all()
     context = {
-        'queryset': queryset
+        'queryset': queryset,
+        'categories': categories,
+        'countries': countries
     }
     return render(request, 'flix/show_search.html', context)
 
