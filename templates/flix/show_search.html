@@ -3,11 +3,26 @@
 
 <h1>Search Shows</h1>
 <form action="{% url 'show_search' %}" method="GET">
-	<input type="text" name="q" placeholder="Search by name...">
+	<input type="text" name="name" placeholder="Search by title...">
+</form>
+<form action="{% url 'show_search' %}" method="GET">
+	<input type="text" name="director" placeholder="Search by director...">
+</form>
+<form action="{% url 'show_search' %}" method="GET">
+	<input type="number" name="year" placeholder="Search by year">
+</form>
+<form action="{% url 'show_search' %}" method="GET">
+	<select name="is_movie">
+		<option value="all">View All</option>
+		<option value="movies">Movies</option>
+		<option value="tv">TV Shows</option>
+	</select>
+	<input type="submit" >
 </form>
 
+
 <ul class="list-group">
-	{% for show in show_list %}
+	{% for show in queryset %}
 	<a href="{% url 'detail_view' show.id %}">
 		<li class="list-group-item">
 			{{ show.title }}

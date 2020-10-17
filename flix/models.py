@@ -10,6 +10,7 @@ class Category(models.Model):
     class Meta:
         verbose_name_plural = 'Categories'
 
+
 class Country(models.Model):
     name = models.CharField(max_length=20)
 

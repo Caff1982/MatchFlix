@@ -18,12 +18,38 @@ def friend_search(request):
         return render(request, 'flix/friend_search.html')
 
 def show_search(request):
-    q = request.GET.get('q')
-    if q is not None:
-        show_list = Show.objects.filter(title__icontains=q)
-        return render(request, 'flix/show_search.html', {'show_list': show_list})
-    else:
-        return render(request, 'flix/show_search.html')
+    queryset = Show.objects.all()
+    name_query = request.GET.get('name')
+    director_query = request.GET.get('director')
+    year_query = request.GET.get('year')
+    is_movie_query = request.GET.get('is_movie')
+    print('Is movie query: ', is_movie_query)
+
+    if name_query:
+        queryset = queryset.filter(title__icontains=name_query)
+    if director_query:
+        queryset = queryset.filter(director__icontains=director_query)
+    if year_query:
+        queryset = queryset.filter(release_year=year_query)
+    if is_movie_query:
+        if is_movie_query == 'movies':
+            queryset = queryset.filter(is_movie=True)
+        elif is_movie_query == 'tv':
+            queryset = queryset.filter(is_movie=False)
+
+    context = {
+        'queryset': queryset
+    }
+    return render(request, 'flix/show_search.html', context)
+
+
+
+    # q = request.GET.get('q')
+    # if q is not None:
+    #     show_list = Show.objects.filter(title__icontains=q)
+    #     return render(request, 'flix/show_search.html', {'show_list': show_list})
+    # else:
+    #     return render(request, 'flix/show_search.html')
 
 def get_random_show():
     """
