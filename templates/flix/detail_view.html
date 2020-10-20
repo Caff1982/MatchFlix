@@ -3,11 +3,7 @@
 {% block content %}
 
 <div class="col-md-8 mt-3">
-	{% if image_exists %}
-	<img id="show-image" src="/media/images/{{ show.show_id }}.jpg">
-	{% else %}
-	<img id="show-image" src="/media/images/default_image.png">
-	{% endif %}
+	<img id="show-image" src="{{ show.image_url }}">
 	
 	<p>Title: {{ show.title }}</p>
 	<p>Year: {{ show.release_year }}</p>
@@ -19,6 +15,11 @@
 	{% endif %}
 	<p>Duration: {{ show.duration }}</p>
 	<p>Rating: {{ show.rating }}</p>
+	{% if show.director %}
+	<p>Director: {{ show.director }}</p>
+	{% else %}
+	<p>Director: N/A</p>
+	{% endif %}
 	<p>Category: {% for category in show.category.all %}{{ category }}{% endfor %}</p>
 	<p>Country: {% for country in show.country.all %}{{ country }}{% endfor %}</p>
 

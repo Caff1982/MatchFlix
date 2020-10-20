@@ -40,8 +40,7 @@ class Show(models.Model):
     rating = models.CharField(max_length=50, null=True, blank=True)
     duration = models.CharField(max_length=20)
     description = models.CharField(max_length=250)
-    image = models.ImageField(upload_to='images',
-                              default='default.png')
+    image_url = models.CharField(max_length=50, default='default_image.jpg')
 
     category = models.ManyToManyField(Category)
     country = models.ManyToManyField(Country)

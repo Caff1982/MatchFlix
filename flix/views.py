@@ -86,16 +86,8 @@ def random_browse(request):
         user.likes.add(last_show)
 
     show = get_random_show()
-    print('Show id: ', show.id)
-    # Check if image for the show exists
-    image_path = f'media/images/{show.show_id}.jpg'
-    if os.path.exists(image_path):
-        image_exists = True
-    else:
-        image_exists = False
     context = {
         'show': show,
-        'image_exists': image_exists
     }
     return render(request, 'flix/random_browse.html', context)
 
@@ -107,15 +99,9 @@ def detail_view(request, pk):
     if request.method == 'POST':
         user = request.user
         user.likes.add(show)
-    # Check if image for the show exists
-    image_path = f'media/images/{show.show_id}.jpg'
-    if os.path.exists(image_path):
-        image_exists = True
-    else:
-        image_exists = False
+
     context = {
         'show': show,
-        'image_exists': image_exists
     }
     return render(request, 'flix/detail_view.html', context)
 
