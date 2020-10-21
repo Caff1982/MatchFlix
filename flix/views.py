@@ -2,8 +2,8 @@ from django.shortcuts import render, get_object_or_404
 from django.db.models import Max, Min
 from django.views.generic import ListView
 
-import random
 import os
+import numpy as np
 
 from .models import Show, Category, Country
 from accounts.models import Account
@@ -55,14 +55,6 @@ def show_search(request):
     return render(request, 'flix/show_search.html', context)
 
 
-
-    # q = request.GET.get('q')
-    # if q is not None:
-    #     show_list = Show.objects.filter(title__icontains=q)
-    #     return render(request, 'flix/show_search.html', {'show_list': show_list})
-    # else:
-    #     return render(request, 'flix/show_search.html')
-
 def get_random_show():
     """
     Helper function. Returns a randomly selected
@@ -70,7 +62,7 @@ def get_random_show():
     """
     max_id = Show.objects.all().aggregate(max_id=Max('id'))['max_id']
     min_id = Show.objects.all().aggregate(min_id=Min('id'))['min_id']
-    pk = random.randint(min_id, max_id)
+    pk = np.random.randint(min_id, max_id)
     return Show.objects.get(pk=pk)
 
 def dashboard(request):
@@ -117,4 +109,38 @@ def profile_view(request, pk):
         'account': account,
     }
     return render(request, 'flix/profile_view.html', context)
+
+def recommender_view(request):
+    """
+    Content based recommender which uses categories in user's
+    likes to generate probability. Show is then chosen 
+    randomly from this category.
+    """
+    user = request.user
+    likes = user.likes
+    # Create a count of categories in user's likes
+    cats = {}
+    for show in user.likes.all():
+        for cat in show.category.all():
+            if cat in cats:
+                cats[cat] += 1
+            else:
+                cats[cat] = 1
+    # Normalize values
+    sum_arr = sum(cats.values())
+    for key, value in cats.items():
+        cats[key] = value / sum_arr
+    # Filter objects by category then select random show
+    category_choice = np.random.choice(list(cats.keys()), p=list(cats.values()))
+    category_shows = Show.objects.filter(category__name=category_choice)
+    show = np.random.choice(category_shows)
+    while show in user.likes.all():
+        show = np.random.choice(category_shows)
+    context = {
+        'show': show
+    }
+    return render(request, 'flix/recommender_view.html', context)
+
+
+    
 

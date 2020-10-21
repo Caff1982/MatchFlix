@@ -18,9 +18,10 @@
         <a href="{% url 'home' %}" class="navbar-brand" id="navbar-logo">MatchFlix</a>
         {% if user.is_authenticated %}
         <a href="{% url 'dashboard' %}" class="navbar-brand" title="Home"><i class="fas fa-home"></i></a>
-        <a href="{% url 'show_search' %}" class="navbar-brand" title="Search Shows"><i class="fas fa-film"></i></a>
+        <a href="{% url 'show_search' %}" class="navbar-brand" title="Search Shows"><i class="fas fa-search"></i></a>
         <a href="{% url 'random_browse' %}" class="navbar-brand" title="Random Browse"><i class="fas fa-dice"></i></a>
         <a href="{% url 'friend_search' %}" class="navbar-brand" title="Add Friends"><i class="fas fa-user-friends"></i></a>
+        <a href="{% url 'recommender_view' %}" class="navbar-brand" title="Get Recommendations"><i class="fas fa-film"></i></a>
 
         <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
             <span class="navbar-toggler-icon"></span>
