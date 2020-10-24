@@ -1,5 +1,4 @@
 body {
-    padding-top: 5rem;
     background-color: #F0F0F0;
 }
 
@@ -12,24 +11,23 @@ a:hover {
 	color: red;
 }
 
+#navbarDropdownMenuLink-333:hover {
+	cursor: pointer;
+}
+
 #show-search-bar {
 	padding: 10px 0px 25px 10px;
 }
 
-.list-group-item {
-	background-color: #F0F0F0;
-}
-
 #navbar-logo {
 	color: red;
-	margin-right: 5vw;
+	font-size: 2rem;
+	margin-left: 1.75vw;
 }
 
-.fas {
-	transition: color 1.2s;
+.btn-dark {
+	margin-bottom: 10px;
+	width: 500px;
 }
 
-.fas:hover {
-	color: gray;
-}
 

@@ -20,20 +20,19 @@
 </ul>
 {% endfor %}
 
-{% if user.is_authenticated and user.id != account.id %}
-{% if account in user.friends.all %}
-<form method="POST">
-	{% csrf_token %}
-	<input type="hidden" name="add_friend" value="{{ account.id }}">{{ form|crispy }}<button type="submit"
-    class="btn btn-dark btn-block">Remove Friend</button>
-{% else %}
-<form method="POST">
-	{% csrf_token %}
-	<input type="hidden" name="add_friend" value="{{ account.id }}">{{ form|crispy }}<button type="submit"
-    class="btn btn-dark btn-block">Add Friend</button>
-</form>
+{% if user.id != account.id %}
+	{% if account in user.friends.all %}
+		<form method="POST">
+			{% csrf_token %}
+			<input type="hidden" name="add_friend" value="{{ account.id }}">{{ form|crispy }}<button type="submit"
+		    class="btn btn-dark btn-block">Remove Friend</button>
+	{% else %}
+		<form method="POST">
+			{% csrf_token %}
+			<input type="hidden" name="add_friend" value="{{ account.id }}">{{ form|crispy }}<button type="submit"
+		    class="btn btn-dark btn-block">Add Friend</button>
+		</form>
+	{% endif %}
 {% endif %}
-{% endif %}
-
 
 {% endblock %}

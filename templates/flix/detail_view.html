@@ -27,8 +27,13 @@
 
 	<form method="POST">
 		{% csrf_token %}
-		<input type="hidden" name="show_id" value="{{ show.id }}">{{ form|crispy }}
+		<input type="hidden" name="show_id" value="{{ show.id }}">
+		{{ form|crispy }}
+		{% if show in user.likes.all %}
+		<button type="submit" class="btn btn-dark btn-block">Remove from Likes</button>
+		{% else %}
 		<button type="submit" class="btn btn-dark btn-block">Like</button>
+		{% endif %}
     </form>
 </div>
 

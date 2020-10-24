@@ -75,7 +75,10 @@ def random_browse(request):
     if request.method == 'POST':
         user = request.user
         last_show = Show.objects.filter(id=request.POST['show_id']).first()
-        user.likes.add(last_show)
+        if last_show in user.likes.all():
+            user.likes.remove(last_show)
+        else:
+            user.likes.add(last_show)
 
     show = get_random_show()
     context = {
@@ -90,7 +93,10 @@ def detail_view(request, pk):
     show = Show.objects.filter(id=pk).first()
     if request.method == 'POST':
         user = request.user
-        user.likes.add(show)
+        if show in user.likes.all():
+            user.likes.remove(show)
+        else:
+            user.likes.add(show)
 
     context = {
         'show': show,
@@ -118,6 +124,9 @@ def recommender_view(request):
     """
     user = request.user
     likes = user.likes
+    # If user has not rated any films redirect to show search
+    if len(likes.all()) == 0:
+        return render(request, 'flix/ratings_required.html')
     # Create a count of categories in user's likes
     cats = {}
     for show in user.likes.all():
@@ -130,8 +139,10 @@ def recommender_view(request):
     sum_arr = sum(cats.values())
     for key, value in cats.items():
         cats[key] = value / sum_arr
+    print('Cats: ', list(cats.keys()))
     # Filter objects by category then select random show
     category_choice = np.random.choice(list(cats.keys()), p=list(cats.values()))
+    print('Category choice: ', category_choice)
     category_shows = Show.objects.filter(category__name=category_choice)
     show = np.random.choice(category_shows)
     while show in user.likes.all():
