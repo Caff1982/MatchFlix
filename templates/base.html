@@ -15,7 +15,7 @@
 
 <body>
     <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-        <a href="{% url 'home' %}" class="navbar-brand" id="navbar-logo">MatchFlix</a>
+        <a href="{% url 'dashboard' %}" class="navbar-brand" id="navbar-logo">MatchFlix</a>
         {% if user.is_authenticated %}
         <a href="{% url 'dashboard' %}" class="navbar-brand" title="Home"><i class="fas fa-home"></i></a>
         <a href="{% url 'show_search' %}" class="navbar-brand" title="Search Shows"><i class="fas fa-search"></i></a>
