@@ -12,6 +12,10 @@ a:hover {
 	color: red;
 }
 
+#show-search-bar {
+	padding: 10px 0px 25px 10px;
+}
+
 .list-group-item {
 	background-color: #F0F0F0;
 }

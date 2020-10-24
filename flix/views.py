@@ -7,6 +7,7 @@ import numpy as np
 
 from .models import Show, Category, Country
 from accounts.models import Account
+from .forms import ShowSearchForm
 
 
 def friend_search(request):
