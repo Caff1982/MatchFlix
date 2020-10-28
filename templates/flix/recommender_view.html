@@ -2,25 +2,15 @@
 {% load crispy_forms_tags %}
 {% block content %}
 
-<div class="col-md-8 mt-3">
-	<a href="{% url 'detail_view' pk=show.id %}">
-		<img id="show-image" src="{{ show.image_url }}">
+<ul class="list-group">
+	{% for show in queryset %}
+	<a href="{% url 'detail_view' show.id %}">
+		<li class="list-group-item">
+			{{ show.title }}
+			{{ show.release_year }}
+		</li>
 	</a>
-
-	<p>Title: {{ show.title }}</p>
-	<p>Year: {{ show.release_year }}</p>
-	
-	<form method="POST">
-		{% csrf_token %}
-		<input type="hidden" name="show_id" value="{{ show.id }}">{{ form|crispy }}<button type="submit"
-        class="btn btn-dark btn-block">Like</button>
-    </form>
-    <p></p>
-    <form method="GET">
-		{% csrf_token %}
-		{{ form|crispy }}<button type="submit"
-        class="btn btn-dark btn-block">Next</button>
-    </form>
-</div>
+	{% endfor %}
+</ul>
 
 {% endblock %}

@@ -4,6 +4,8 @@ from django.views.generic import ListView
 
 import os
 import numpy as np
+import pandas as pd
+from sklearn.metrics.pairwise import cosine_similarity
 
 from .models import Show, Category, Country
 from accounts.models import Account
@@ -117,38 +119,23 @@ def profile_view(request, pk):
     return render(request, 'flix/profile_view.html', context)
 
 def recommender_view(request):
-    """
-    Content based recommender which uses categories in user's
-    likes to generate probability. Show is then chosen 
-    randomly from this category.
-    """
     user = request.user
-    likes = user.likes
-    # If user has not rated any films redirect to show search
-    if len(likes.all()) == 0:
-        return render(request, 'flix/ratings_required.html')
-    # Create a count of categories in user's likes
-    cats = {}
-    for show in user.likes.all():
-        for cat in show.category.all():
-            if cat in cats:
-                cats[cat] += 1
-            else:
-                cats[cat] = 1
-    # Normalize values
-    sum_arr = sum(cats.values())
-    for key, value in cats.items():
-        cats[key] = value / sum_arr
-    print('Cats: ', list(cats.keys()))
-    # Filter objects by category then select random show
-    category_choice = np.random.choice(list(cats.keys()), p=list(cats.values()))
-    print('Category choice: ', category_choice)
-    category_shows = Show.objects.filter(category__name=category_choice)
-    show = np.random.choice(category_shows)
-    while show in user.likes.all():
-        show = np.random.choice(category_shows)
+    likes = user.likes.all()
+    df = pd.read_csv('item_profiles.csv')
+    show_titles = [show.title for show in likes] 
+    # User Profile is the mean of all user likes
+    user_profile = df[df['title'].isin(show_titles)].mean().values.reshape(1, -1)
+    # Keep titles for recommendations, drop from df
+    recs = pd.DataFrame(data=df['title'], columns=['title'])
+    df.drop(['title'], axis=1, inplace=True)
+    # Add cos theta as column to labels
+    recs['similarity'] = cosine_similarity(df, user_profile)
+    recs.sort_values(by=['similarity'], ascending=False, inplace=True)
+    # Use recs DataFrame to get list of Show objects
+    rec_shows = [Show.objects.filter(title=title)[0] for title in recs['title'].values[:25]]
+
     context = {
-        'show': show
+        'queryset': rec_shows
     }
     return render(request, 'flix/recommender_view.html', context)
 
