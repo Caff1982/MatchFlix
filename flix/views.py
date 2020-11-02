@@ -22,27 +22,15 @@ def friend_search(request):
 def show_search(request):
     queryset = Show.objects.all()
     name_query = request.GET.get('name')
-    director_query = request.GET.get('director')
-    year_query = request.GET.get('year')
-    is_movie_query = request.GET.get('is_movie')
     category_query = request.GET.get('category')
     country_query = request.GET.get('country')
 
     if name_query:
         queryset = queryset.filter(title__icontains=name_query)
-    if director_query:
-        queryset = queryset.filter(director__icontains=director_query)
-    if year_query:
-        queryset = queryset.filter(release_year=year_query)
-    if is_movie_query:
-        if is_movie_query == 'movies':
-            queryset = queryset.filter(is_movie=True)
-        elif is_movie_query == 'tv':
-            queryset = queryset.filter(is_movie=False)
-    if category_query:
+    elif category_query:
         if category_query != 'all':
             queryset = queryset.filter(category__name=category_query)
-    if country_query:
+    elif country_query:
         print('country_query: ', country_query)
         if country_query != 'all':
             queryset = queryset.filter(country__name=country_query)
