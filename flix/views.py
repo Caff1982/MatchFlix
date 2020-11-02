@@ -128,5 +128,36 @@ def recommender_view(request):
     return render(request, 'flix/recommender_view.html', context)
 
 
-    
+def recommender_friends(request):
+    user = request.user
+    user_likes = user.likes.all()
+    user_friends = user.friends.all()
+
+    friend_id = request.GET.get('friend')
+    if friend_id:
+        friend = Account.objects.filter(id=friend_id).first()
+        friend_likes = friend.likes.all()
+        # Add the two querysets together
+        likes = user_likes | friend_likes
+
+        df = pd.read_csv('item_profiles.csv')
+        show_titles = [show.title for show in likes] 
+        # User Profile is the mean of all user likes
+        user_profile = df[df['title'].isin(show_titles)].mean().values.reshape(1, -1)
+        # Keep titles for recommendations, drop from df
+        recs = pd.DataFrame(data=df['title'], columns=['title'])
+        df.drop(['title'], axis=1, inplace=True)
+        # Add cos theta as column to labels
+        recs['similarity'] = cosine_similarity(df, user_profile)
+        recs.sort_values(by=['similarity'], ascending=False, inplace=True)
+        # Use recs DataFrame to get list of Show objects
+        rec_shows = [Show.objects.filter(title=title)[0] for title in recs['title'].values[:25]]
+    else:
+        rec_shows = []
+
+    context = {
+        'user_friends': user_friends,
+        'queryset': rec_shows
+    }
+    return render(request, 'flix/recommender_friends.html', context)
 

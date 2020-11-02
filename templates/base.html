@@ -32,8 +32,14 @@
           <li class="nav-item">
             <a class="nav-link" href="{% url 'show_search' %}">Shows</a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'recommender_view' %}">Recommendations</a>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink-centre" data-toggle="dropdown"
+              aria-haspopup="true" aria-expanded="false">Recommendations</a>
+            <div class="dropdown-menu dropdown-menu-right dropdown-default" aria-labelledby="navbarDropdownMenuLink-centre">
+              <a class="dropdown-item" href="{% url 'recommender_view' %}">Recommendations for you</a>
+              <a class="dropdown-item" href="{% url 'recommender_friends' %}">Recommendations for you and a friend</a>
+              <a class="dropdown-item" href="{% url 'random_browse' %}">Play Roulette</a>
+            </div>
           </li>
         </ul>
         
