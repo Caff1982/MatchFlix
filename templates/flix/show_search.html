@@ -1,50 +1,56 @@
 {%  extends 'base.html' %}
+{% load static %}
 {% block content %}
-
 <h1>Search Shows</h1>
-<div id="show-search-bar" class="container">
-	<div class="row">
-		<div class="col-sm">
-			<form action="{% url 'show_search' %}" method="GET">
-				<input type="text" name="name" placeholder="Search by title...">
-			</form>
-		</div>
-		<div class="col-sm">
-			<form action="{% url 'show_search' %}" method="GET">
-				<select name="category" onchange="this.form.submit();">
-					<option>-- Category --</option>
-					<option value="all">View All</option>
-					{% for cat in categories %}
-					<option value="{{ cat }}">{{ cat }}</option>
-					{% endfor %}
-				</select>
-			</form>
-		</div>
-		<div class="col-sm">
-			<form action="{% url 'show_search' %}" method="GET">
-				<select name="country" onchange="this.form.submit();">
-					<option>-- Country --</option>
-					<option value="all">View All</option>
-					{% for country in countries %}
-					<option value="{{ country }}">{{ country }}</option>
-					{% endfor %}
-				</select>
-			</form>
+<section class="site_filter">
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-sm2 col-2">
+				<div class="form-group">
+					<label for="category">Category</label>
+					<select class="form-control" id="categories" url="{% url 'get_categories' %}"></select>
+				</div>
+			</div>
+			<div class="col-sm-2 col-2">
+				<div class="form-group">
+					<label for="country">Country</label>
+					<select class="form-control" id="countries" url="{% url 'get_countries' %}"></select>
+				</div>
+			</div>
+			<div class="col-sm-2 col-2">
+        <div class="row justify-content-center align-self-center"
+            style="color:white; margin-top:30px;">
+            <a class="btn btn-secondary" id="display_all">Display all</a>
+        </div>
+      </div>
 		</div>
 	</div>
-</div>
+</section>
+<br />
+<section>
+	<div class="container-fluid">
+		<div id="result-count" class="text-right">
+			<span class="font-weight-bold"></span> results found.
+		</div>
+		<div class="row properties_table justify-content-center">
+			<div id="no_results">
+				<h5>No results found</h5>
+			</div>
+			<table class="table table-bordered table-responsive table-hover table-striped" id="list_data" data-toggle="table" url = "{% url 'show_listing' %}">
+				<thead>
+          <tr>
+            <th data-field="title">Title</th>
+            <th data-field="category">Description</th>
+          </tr>
+        </thead>
+        <tbody id="listing">
+        </tbody>
+			</table>
+		</div>
+	</div>
+</section>
+{% endblock %}
 
-
-
-
-<ul class="list-group">
-	{% for show in queryset %}
-	<a href="{% url 'detail_view' show.id %}">
-		<li class="list-group-item">
-			{{ show.title }}
-			{{ show.release_year }}
-		</li>
-	</a>
-	{% endfor %}
-</ul>
+{% block page_scripts %}
+<script src="{% static '/js/search.js' %}" type="text/javascript"></script>
 {% endblock %}

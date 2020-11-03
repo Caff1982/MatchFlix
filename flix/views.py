@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404
 from django.db.models import Max, Min
-from django.views.generic import ListView
+from django.http import JsonResponse
+from rest_framework.generics import ListAPIView
 
 import os
 import numpy as np
@@ -9,6 +10,7 @@ from sklearn.metrics.pairwise import cosine_similarity
 
 from .models import Show, Category, Country
 from accounts.models import Account
+from .serealizers import ShowSerealizers
 
 
 def friend_search(request):
@@ -18,32 +20,6 @@ def friend_search(request):
         return render(request, 'flix/friend_search.html', {'user_list': user_list})
     else:
         return render(request, 'flix/friend_search.html')
-
-def show_search(request):
-    queryset = Show.objects.all()
-    name_query = request.GET.get('name')
-    category_query = request.GET.get('category')
-    country_query = request.GET.get('country')
-
-    if name_query:
-        queryset = queryset.filter(title__icontains=name_query)
-    elif category_query:
-        if category_query != 'all':
-            queryset = queryset.filter(category__name=category_query)
-    elif country_query:
-        print('country_query: ', country_query)
-        if country_query != 'all':
-            queryset = queryset.filter(country__name=country_query)
-
-    categories = Category.objects.all()
-    countries = Country.objects.all()
-    context = {
-        'queryset': queryset,
-        'categories': categories,
-        'countries': countries
-    }
-    return render(request, 'flix/show_search.html', context)
-
 
 def get_random_show():
     """
@@ -161,3 +137,48 @@ def recommender_friends(request):
     }
     return render(request, 'flix/recommender_friends.html', context)
 
+def show_search(request):
+    return render(request, 'flix/show_search.html', {})
+
+class ShowListing(ListAPIView):
+    model = Show
+
+    serializer_class = ShowSerealizers
+
+    def get_queryset(self):
+        queryset = Show.objects.all()
+        title_query = self.request.GET.get('title', None)
+        category_query = self.request.GET.get('category', None)
+        country_query = self.request.GET.get('country', None)
+
+        if title_query:
+            queryset = queryset.filter(title__icontains=title_query)
+        if category_query:
+            if category_query != 'all':
+                queryset = queryset.filter(category__name=category_query)
+        if country_query:
+            if country_query != 'all':
+                queryset = queryset.filter(country__name=country_query)
+
+        return queryset
+
+def getCategories(request):
+    if request.method == 'GET' and request.is_ajax():
+        categories = Category.objects.all().values_list('name')
+        categories = [i[0] for i in list(categories)]
+        print('Categories: ', categories)
+        data = {
+            'categories': categories,
+        }
+        return JsonResponse(data, status=200)
+
+def getCountries(request):
+    print('Get countries')
+    if request.method == 'GET' and request.is_ajax():
+        countries = Country.objects.all().values_list('name')
+        countries = [i[0] for i in list(countries)]
+        print('Countries: ', countries)
+        data = {
+            'countries': countries,
+        }
+        return JsonResponse(data, status=200)
