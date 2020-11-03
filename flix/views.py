@@ -11,6 +11,7 @@ from sklearn.metrics.pairwise import cosine_similarity
 from .models import Show, Category, Country
 from accounts.models import Account
 from .serealizers import ShowSerealizers
+from .pagination import StandardResultsSetPagination
 
 
 def friend_search(request):
@@ -142,14 +143,15 @@ def show_search(request):
 
 class ShowListing(ListAPIView):
     model = Show
-
+    # set the pagination and serializer class
+    pagination_class = StandardResultsSetPagination
     serializer_class = ShowSerealizers
 
     def get_queryset(self):
         queryset = Show.objects.all()
-        title_query = self.request.GET.get('title', None)
-        category_query = self.request.GET.get('category', None)
-        country_query = self.request.GET.get('country', None)
+        title_query = self.request.query_params.get('title', None)
+        category_query = self.request.query_params.get('category', None)
+        country_query = self.request.query_params.get('country', None)
 
         if title_query:
             queryset = queryset.filter(title__icontains=title_query)
@@ -166,18 +168,15 @@ def getCategories(request):
     if request.method == 'GET' and request.is_ajax():
         categories = Category.objects.all().values_list('name')
         categories = [i[0] for i in list(categories)]
-        print('Categories: ', categories)
         data = {
             'categories': categories,
         }
         return JsonResponse(data, status=200)
 
 def getCountries(request):
-    print('Get countries')
     if request.method == 'GET' and request.is_ajax():
         countries = Country.objects.all().values_list('name')
         countries = [i[0] for i in list(countries)]
-        print('Countries: ', countries)
         data = {
             'countries': countries,
         }
