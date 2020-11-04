@@ -1,5 +1,6 @@
 var send_data = {}
 
+
 $(document).ready(function () {
 	// Reset all parameters on page load
 	resetFilters();
@@ -9,14 +10,22 @@ $(document).ready(function () {
 	getCategories();
 	// Get all Countries from Database
 	getCountries();
+    // Get range of release years
+    getYears();
 
-	// on selecting the category option
+    // Text search
+    $('#title-search').on('keyup', function () {
+        send_data['title'] = this.value;
+        // Get API data with updated filters
+        getAPIData()
+    })
+
+	// On selecting the category option
 	$('#categories').on('change', function () {
 		if (this.value == 'all')
 			send_data['category'] = '';
 		else
 			send_data['category'] = this.value;
-
 		// Get API data with updated filters
 		getAPIData();
 	})
@@ -27,10 +36,19 @@ $(document).ready(function () {
 			send_data['country'] = '';
 		else
 			send_data['country'] = this.value;
-		
 		// Get API data with updated filters
 		getAPIData();
 	})
+
+    // On selecting the year option
+    $('#years').on('change', function () {
+        if (this.value == 'all')
+            send_data['year'] = '';
+        else
+            send_data['year'] = this.value;
+        // Get API data with updated filters
+        getAPIData();
+    })
 
 	// Reset the filters
 	$("#display_all").click(function(){
@@ -44,9 +62,11 @@ $(document).ready(function () {
 function resetFilters() {
 	$("#categories").val("all");
 	$("#countries").val("all");
+    $("#years").val("all");
 
 	send_data['category'] = '';
 	send_data['country'] = '';
+    send_data['year'] = '';
 	send_data['format'] = 'json';
 }
 
@@ -54,16 +74,16 @@ function putTableData(result) {
 	// Utility function to create HTML table to 
 	// display data
 	let row;
-	console.log('Result: ', result)
-	console.log('Result length: ', result.length)
 	if (result['results'].length > 0) {
-		console.log('Valid data');
 		$("#no_results").hide();
         $("#list_data").show();
         $("#listing").html("");
         $.each(result["results"], function (a, b) {
             row = "<tr> <td title=\"" + b.title + "\">" + b.title + "</td>" +
-            "<td>" + b.description + "</td></tr>"
+            "<td>" + b.release_year + "</td>" +
+            "<td>" + b.description + "</td>" +
+            "<td>" + b.category_string + "</td>" +
+            "<td>" + b.country_string + "</td></tr>"
             $("#listing").append(row);   
         });
 	}
@@ -76,7 +96,7 @@ function putTableData(result) {
 	// setting previous and next page url for the given result
     let prev_url = result["previous"];
     let next_url = result["next"];
-    console.log('next_url: ', next_url)
+
     // disabling-enabling button depending on existence of next/prev page. 
     if (prev_url === null) {
         $("#previous").addClass("disabled");
@@ -101,7 +121,6 @@ function putTableData(result) {
 
 function getAPIData() {
 	let url = $('#list_data').attr("url")
-	console.log('URL: ', url)
 	$.ajax({
 		method: 'GET',
 		url: url,
@@ -137,6 +156,46 @@ function getCategories() {
         }
 	});
 }
+
+function getCountries() {
+    let url = $("#countries").attr("url");
+    $.ajax({
+        method: 'GET',
+        url: url,
+        data: {},
+        success: function (result) {
+            countries_option = "<option value='all' selected>All Countries</option>";
+            $.each(result["countries"], function (a, b) {
+                countries_option += "<option>" + b + "</option>"
+            });
+            $("#countries").html(countries_option)
+        },
+        error: function(response){
+            console.log(response)
+        }
+    });
+}
+
+function getYears() {
+    let url = $("#years").attr("url");
+    $.ajax({
+        method: 'GET',
+        url: url,
+        data: {},
+        success: function (result) {
+            years_option = "<option value='all' selected>All Years</option>";
+            $.each(result["years"], function (a, b) {
+                years_option += "<option>" + b + "</option>"
+            });
+            $("#years").html(years_option)
+        },
+        error: function(response){
+            console.log(response)
+        }
+    });
+}
+
+
 
 $("#next").click(function () {
     let url = $(this).attr("url");
@@ -174,22 +233,4 @@ $("#previous").click(function () {
     });
 })
 
-function getCountries() {
-    let url = $("#countries").attr("url");
-    console.log('Countries url: ', url)
-    $.ajax({
-        method: 'GET',
-        url: url,
-        data: {},
-        success: function (result) {
-            countries_option = "<option value='all' selected>All Countries</option>";
-            $.each(result["countries"], function (a, b) {
-                countries_option += "<option>" + b + "</option>"
-            });
-            $("#countries").html(countries_option)
-        },
-        error: function(response){
-            console.log(response)
-        }
-    });
-}
+

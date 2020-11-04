@@ -13,7 +13,8 @@ urlpatterns = [
     path('recommendations/', recommender_view, name='recommender_view'),
     path('recommendations-friends/', recommender_friends, name='recommender_friends'),
     path('show-search/', show_search, name='show_search'),
-    path('show-listing', ShowListing.as_view(), name='show_listing'),
-    path('ajax/categories/', getCategories, name='get_categories'),
-    path('ajax/countries/', getCountries, name='get_countries'),
+    path('show-listing/', ShowListing.as_view(), name='show_listing'),
+    path('ajax/categories/', get_categories, name='get_categories'),
+    path('ajax/countries/', get_countries, name='get_countries'),
+    path('ajax/years/', get_years, name='get_years'),
 ]

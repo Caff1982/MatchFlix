@@ -54,6 +54,20 @@ class Show(models.Model):
     def __repr__(self):
         return self.title
 
+    @property
+    def category_string(self):
+        """
+        Converts ManyToManyField to str by joining each Category
+        """
+        return ' '.join([str(i) for i in self.category.all()])
+
+    @property
+    def country_string(self):
+        """
+        Converts ManyToManyField to str by joining each Country
+        """
+        return ' '.join([str(i) for i in self.country.all()])
+
     class Meta:
         verbose_name_plural = 'Shows'
         ordering = ['title']

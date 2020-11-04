@@ -152,6 +152,7 @@ class ShowListing(ListAPIView):
         title_query = self.request.query_params.get('title', None)
         category_query = self.request.query_params.get('category', None)
         country_query = self.request.query_params.get('country', None)
+        year_query = self.request.query_params.get('year', None)
 
         if title_query:
             queryset = queryset.filter(title__icontains=title_query)
@@ -161,10 +162,13 @@ class ShowListing(ListAPIView):
         if country_query:
             if country_query != 'all':
                 queryset = queryset.filter(country__name=country_query)
+        if year_query:
+            if year_query != 'all':
+                queryset = queryset.filter(release_year=year_query)
 
         return queryset
 
-def getCategories(request):
+def get_categories(request):
     if request.method == 'GET' and request.is_ajax():
         categories = Category.objects.all().values_list('name')
         categories = [i[0] for i in list(categories)]
@@ -173,11 +177,20 @@ def getCategories(request):
         }
         return JsonResponse(data, status=200)
 
-def getCountries(request):
+def get_countries(request):
     if request.method == 'GET' and request.is_ajax():
         countries = Country.objects.all().values_list('name')
         countries = [i[0] for i in list(countries)]
         data = {
             'countries': countries,
+        }
+        print('countries data: ', countries)
+        return JsonResponse(data, status=200)
+
+def get_years(request):
+    if request.method == 'GET' and request.is_ajax():
+        years_qs = Show.objects.order_by('-release_year').values_list('release_year', flat=True).distinct()    
+        data = {
+            'years': list(years_qs),
         }
         return JsonResponse(data, status=200)

@@ -5,4 +5,5 @@ from .models import Show
 class ShowSerealizers(serializers.ModelSerializer):
     class Meta:
         model = Show
-        fields = ('title', 'description')
+        fields = ('title', 'release_year', 'description',
+                  'category_string', 'country_string')
