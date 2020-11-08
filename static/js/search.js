@@ -1,7 +1,7 @@
 var send_data = {}
 
 
-$(document).ready(function () {
+$(document).ready(function($) {
 	// Reset all parameters on page load
 	resetFilters();
 	// Get all the data without filters
@@ -51,7 +51,7 @@ $(document).ready(function () {
     })
 
 	// Reset the filters
-	$("#display_all").click(function(){
+	$('#display_all').click(function(){
         resetFilters();
         getAPIData();
     })
@@ -79,7 +79,9 @@ function putTableData(result) {
         $("#list_data").show();
         $("#listing").html("");
         $.each(result["results"], function (a, b) {
-            row = "<tr> <td title=\"" + b.title + "\">" + b.title + "</td>" +
+            detail_url = '/detail/' + b.id
+            row = "<tr class=\"clickable-row\" data-href=\"\">" +
+            "<td><a href=\"" + detail_url + "\">" + b.title + "</a></td>" +
             "<td>" + b.release_year + "</td>" +
             "<td>" + b.description + "</td>" +
             "<td>" + b.category_string + "</td>" +
