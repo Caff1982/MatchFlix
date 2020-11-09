@@ -2,22 +2,41 @@ var send_data = {}
 
 
 $(document).ready(function($) {
-	// Reset all parameters on page load
-	resetFilters();
-	// Get all the data without filters
-	getAPIData();
 	// Get all Categories from Database
 	getCategories();
 	// Get all Countries from Database
 	getCountries();
     // Get range of release years
     getYears();
+    // Load previous state from sessionStorage
+    var stored_title = sessionStorage.getItem('title');
+    var stored_category = sessionStorage.getItem('category');
+    var stored_country = sessionStorage.getItem('country');
+    var stored_year = sessionStorage.getItem('year');
+    if (stored_title != '')
+        console.log('stored title: ', stored_title);
+        // $('#title-search').html(stored_title);
+        send_data['title'] = stored_title;
+    if (stored_category != '')
+        console.log('stored cat: ', stored_category);
+        send_data['category'] = stored_category;
+    if (stored_country != '')
+        console.log('stored country: ', stored_country);
+        send_data['country'] = stored_country;
+    if (stored_year != '')
+        console.log('stored year: ', stored_year);
+        send_data['year'] = stored_year;
+    // Load the data
+    getAPIData();
 
     // Text search
     $('#title-search').on('keyup', function () {
         send_data['title'] = this.value;
         // Get API data with updated filters
         getAPIData()
+        // Store data in sessionStorage
+        sessionStorage.setItem('title', this.value);
+        // console.log(this.value);
     })
 
 	// On selecting the category option
@@ -28,6 +47,8 @@ $(document).ready(function($) {
 			send_data['category'] = this.value;
 		// Get API data with updated filters
 		getAPIData();
+        // Store data in sessionStorage
+        sessionStorage.setItem('category', this.value);
 	})
 
 	// On selecting the country option
@@ -38,6 +59,8 @@ $(document).ready(function($) {
 			send_data['country'] = this.value;
 		// Get API data with updated filters
 		getAPIData();
+        // Store data in sessionStorage
+        sessionStorage.setItem('country', this.value);
 	})
 
     // On selecting the year option
@@ -48,6 +71,8 @@ $(document).ready(function($) {
             send_data['year'] = this.value;
         // Get API data with updated filters
         getAPIData();
+        // Store data in sessionStorage
+        sessionStorage.setItem('year', this.value);
     })
 
 	// Reset the filters
@@ -60,10 +85,17 @@ $(document).ready(function($) {
 
 // Function to reset all filters
 function resetFilters() {
-	$("#categories").val("all");
-	$("#countries").val("all");
-    $("#years").val("all");
+    sessionStorage.removeItem('title');
+    sessionStorage.removeItem('category');
+    sessionStorage.removeItem('country');
+    sessionStorage.removeItem('year');
 
+    $('#title-search').val('');
+	$('#categories').val('all');
+	$('#countries').val('all');
+    $('#years').val('all');
+
+    send_data['title'] = '';
 	send_data['category'] = '';
 	send_data['country'] = '';
     send_data['year'] = '';

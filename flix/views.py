@@ -184,7 +184,6 @@ def get_countries(request):
         data = {
             'countries': countries,
         }
-        print('countries data: ', countries)
         return JsonResponse(data, status=200)
 
 def get_years(request):
