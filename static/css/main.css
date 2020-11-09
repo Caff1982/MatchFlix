@@ -27,7 +27,12 @@ a:hover {
 
 .btn-dark {
 	margin-bottom: 10px;
-	width: 500px;
+	max-width: 400px;
 }
+
+#detail-image {
+	max-width: 450px;
+}
+
 
 

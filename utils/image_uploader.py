@@ -49,4 +49,4 @@ def upload_dir(dir_path):
 
 
 if __name__ == '__main__':
-    upload_dir('./media/images')
+    upload_dir('./media/scaled_images')

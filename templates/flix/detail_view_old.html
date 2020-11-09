@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+<div class="col-md-8 mt-3">
+	<img id="show-image" src="{{ show.image_url }}">
+	
+	<p>Title: {{ show.title }}</p>
+	<p>Year: {{ show.release_year }}</p>
+	<p>Description: {{ show.description }}</p>
+	{% if show.is_movie %}
+	<p>Type: Movie</p>
+	{% else %}
+	<p>Type: TV Show</p>
+	{% endif %}
+	<p>Duration: {{ show.duration }}</p>
+	<p>Rating: {{ show.rating }}</p>
+	{% if show.director %}
+	<p>Director: {{ show.director }}</p>
+	{% else %}
+	<p>Director: N/A</p>
+	{% endif %}
+	<p>Category: {% for category in show.category.all %}{{ category }} {% endfor %}</p>
+	<p>Country: {% for country in show.country.all %}{{ country }} {% endfor %}</p>
+
+	<a href="https://www.netflix.com/title/{{ show.show_id }}" target="_blank">Watch on Netflix</a>
+
+	<form method="POST">
+		{% csrf_token %}
+		<input type="hidden" name="show_id" value="{{ show.id }}">
+		{{ form|crispy }}
+		{% if show in user.likes.all %}
+		<button type="submit" class="btn btn-dark btn-block">Remove from Likes</button>
+		{% else %}
+		<button type="submit" class="btn btn-dark btn-block">Like</button>
+		{% endif %}
+    </form>
+</div>
+
+{% endblock %}
