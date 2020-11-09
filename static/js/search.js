@@ -80,12 +80,11 @@ function putTableData(result) {
         $("#listing").html("");
         $.each(result["results"], function (a, b) {
             detail_url = '/detail/' + b.id
-            row = "<tr class=\"clickable-row\" data-href=\"\">" +
-            "<td><a href=\"" + detail_url + "\">" + b.title + "</a></td>" +
-            "<td>" + b.release_year + "</td>" +
-            "<td>" + b.description + "</td>" +
-            "<td>" + b.category_string + "</td>" +
-            "<td>" + b.country_string + "</td></tr>"
+            row = `<tr><td><a href=${detail_url}>${b.title}</a></td>
+            <td>${b.release_year}</td>
+            <td>${b.description}</td>
+            <td>${b.category_string}</td>
+            <td>${b.country_string}</td></tr>`
             $("#listing").append(row);   
         });
 	}

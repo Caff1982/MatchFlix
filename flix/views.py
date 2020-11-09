@@ -57,7 +57,6 @@ def detail_view(request, pk):
     """
     Detail view for shows/movies
     """
-    print('Detail view, pk: ', pk)
     show = Show.objects.filter(id=pk).first()
     if request.method == 'POST':
         user = request.user
