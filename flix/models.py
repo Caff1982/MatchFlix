@@ -70,4 +70,4 @@ class Show(models.Model):
 
     class Meta:
         verbose_name_plural = 'Shows'
-        ordering = ['title']
+        ordering = ['-release_year']
