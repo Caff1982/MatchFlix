@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+<div class="container">
+	<h1>Welcome to MatchFlix!</h1>
+	<br>
+	<p>MatchFlix is a recommendation site for Netflix. It is unique in that it allows users to add their friends and get recommendations based on two profiles. I made this to explore recommendation algorithms, in-particular for combining two-profiles as there does not appear to be any succseful algorithm for this to-date. For more information please view the README <a href="https://github.com/Caff1982/MatchFlix/blob/main/README.md">here</a></p>
+</div>
+
+{% if user.is_authenticated %}
+	<div class="container">
+		<div class="row">
+			<div class="col-md">
+				<h3>Your Friends:</h3>
+					{% if user.friends.all|length == 0 %}
+						<p>You don't have any friends yet</p>
+					{% else %}
+						<ul class="list-group">
+							{% for friend in user.friends.all %}
+							<li class="list-group-item">
+								<a href="{% url 'profile_view' friend.id %}">{{ friend.name }}</a>
+							</li>
+							{% endfor %}
+						</ul>
+					{% endif %}
+					<form action="{% url 'friend_search' %}" method="GET">
+						<input type="text" name="q" placeholder="Search for friends...">
+					</form>
+			</div>
+			<div class="col-md">
+				<h3>Your Likes:</h3>
+				{% if user.likes.all|length == 0 %}
+					<p>You have not liked any shows yet</p>
+				{% else %}
+					<ul class="list-group">
+						{% for show in user.likes.all %}
+						<li class="list-group-item">
+							<a href="{% url 'detail_view' show.id %}">{{ show.title }}</a>
+						</li>
+						{% endfor %}
+					</ul>
+				{% endif %}
+			</div>
+		</div>
+	</div>
+{% endif %}
+
+{% endblock %}

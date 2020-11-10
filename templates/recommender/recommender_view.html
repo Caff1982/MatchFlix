@@ -2,6 +2,9 @@
 {% load crispy_forms_tags %}
 {% block content %}
 
+{% if queryset|length == 0 %}
+	<h3>Please rate some shows to get recommendations</h3>
+{% else %}
 <ul class="list-group">
 	{% for show in queryset %}
 	<a href="{% url 'detail_view' show.id %}">
@@ -12,5 +15,6 @@
 	</a>
 	{% endfor %}
 </ul>
+{% endif %}
 
 {% endblock %}

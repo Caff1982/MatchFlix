@@ -17,7 +17,7 @@ from .forms import UserCreationForm, RegistrationForm
 
 
 class RegistrationView(CreateView):
-    template_name = 'registration/register.html'
+    template_name = 'accounts/register.html'
     form_class = RegistrationForm
 
     def get_context_data(self, *args, **kwargs):
@@ -33,14 +33,35 @@ class RegistrationView(CreateView):
 
         return reverse('login')
 
-
 class ProfileView(UpdateView):
     model = Account
     fields = ['name', 'date_of_birth']
-    template_name = 'registration/profile.html'
+    template_name = 'accounts/profile.html'
 
     def get_success_url(self):
-        return '/flix/'
+        return '/'
 
     def get_object(self):
         return self.request.user
+
+
+def friend_search(request):
+    q = request.GET.get('q')
+    if q is not None:
+        user_list = Account.objects.filter(name__icontains=q)
+        return render(request, 'accounts/friend_search.html', {'user_list': user_list})
+    else:
+        return render(request, 'accounts/friend_search.html')
+
+def profile_view(request, pk):
+    account = Account.objects.filter(id=pk).first()
+    if request.method == 'POST':
+        user = request.user
+        if account in user.friends.all():
+            user.friends.remove(account)
+        else:
+            user.friends.add(account)
+    context = {
+        'account': account,
+    }
+    return render(request, 'accounts/profile_view.html', context)
