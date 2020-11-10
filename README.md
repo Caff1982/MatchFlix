@@ -1,16 +1,13 @@
-Inspired by tutorial from:
-https://dev.to/joshwizzy/customizing-django-authentication-using-abstractbaseuser-llg
+# MatchFlix
 
-tmdb api used for images, give credit
-tmdbv3api library used to get images
-We have 5496 images out of 6234, ~88%.
+**This is still a work in progess.** 
 
-To get images run image_scraper.py. This must be done before populating the database.
+### Usage
 
-To populate database run manage.py populate_db filename.csv. File added as a command in flix/management/commands.
+To get the images run 'utils/image_scraper.py'. To populate the database run 'manage.py populate_db data.csv'.
 
-Categories, taken from 'listen_in' and split. CHECK FOR DUPLICATES, strip whitespace. Current length = 72.
-{'TV Sci-Fi & Fantasy', ' Teen TV Shows', 'TV Action & Adventure', ' TV Thrillers', ' TV Dramas', ' Stand-Up Comedy', 'Classic & Cult TV', ' Faith & Spirituality', 'TV Shows', 'TV Horror', ' TV Mysteries', 'International Movies', ' TV Action & Adventure', 'Music & Musicals', 'Anime Series', ' Children & Family Movies', 'Spanish-Language TV Shows', ' Romantic TV Shows', ' Horror Movies', 'Thrillers', ' Documentaries', 'Sports Movies', 'Crime TV Shows', ' TV Comedies', ' TV Sci-Fi & Fantasy', ' Sports Movies', ' TV Horror', 'Movies', ' Music & Musicals', ' Korean TV Shows', ' Docuseries', ' Independent Movies', ' Reality TV', 'Dramas', "Kids' TV", ' Comedies', 'British TV Shows', 'Independent Movies', 'Classic Movies', 'International TV Shows', " Kids' TV", 'Docuseries', ' Thrillers', ' International Movies', 'Documentaries', 'TV Comedies', 'Romantic TV Shows', ' Romantic Movies', 'Anime Features', 'Comedies', ' Science & Nature TV', 'Reality TV', 'Sci-Fi & Fantasy', ' LGBTQ Movies', ' Classic Movies', 'TV Dramas', ' Cult Movies', ' Dramas', 'Stand-Up Comedy & Talk Shows', 'Cult Movies', ' Classic & Cult TV', ' International TV Shows', ' Stand-Up Comedy & Talk Shows', 'Horror Movies', ' Crime TV Shows', 'Children & Family Movies', 'Romantic Movies', 'Stand-Up Comedy', 'Action & Adventure', ' Spanish-Language TV Shows', ' Sci-Fi & Fantasy', ' Anime Features'}
+### Acknowledgements
 
-SORTED ARR:
-['Action & Adventure', 'Anime Features', 'Anime Features', 'Anime Series', 'British TV Shows', 'Children & Family Movies', 'Children & Family Movies', 'Classic & Cult TV', 'Classic & Cult TV', 'Classic Movies', 'Classic Movies', 'Comedies', 'Comedies', 'Crime TV Shows', 'Crime TV Shows', 'Cult Movies', 'Cult Movies', 'Documentaries', 'Documentaries', 'Docuseries', 'Docuseries', 'Dramas', 'Dramas', 'Faith & Spirituality', 'Horror Movies', 'Horror Movies', 'Independent Movies', 'Independent Movies', 'International Movies', 'International Movies', 'International TV Shows', 'International TV Shows', "Kids' TV", "Kids' TV", 'Korean TV Shows', 'LGBTQ Movies', 'Movies', 'Music & Musicals', 'Music & Musicals', 'Reality TV', 'Reality TV', 'Romantic Movies', 'Romantic Movies', 'Romantic TV Shows', 'Romantic TV Shows', 'Sci-Fi & Fantasy', 'Sci-Fi & Fantasy', 'Science & Nature TV', 'Spanish-Language TV Shows', 'Spanish-Language TV Shows', 'Sports Movies', 'Sports Movies', 'Stand-Up Comedy', 'Stand-Up Comedy', 'Stand-Up Comedy & Talk Shows', 'Stand-Up Comedy & Talk Shows', 'TV Action & Adventure', 'TV Action & Adventure', 'TV Comedies', 'TV Comedies', 'TV Dramas', 'TV Dramas', 'TV Horror', 'TV Horror', 'TV Mysteries', 'TV Sci-Fi & Fantasy', 'TV Sci-Fi & Fantasy', 'TV Shows', 'TV Thrillers', 'Teen TV Shows', 'Thrillers', 'Thrillers']
+I found [this](https://dev.to/joshwizzy/customizing-django-authentication-using-abstractbaseuser-llg) tutorial very helpful for authentication.
+
+I used The Movie Database (TMDb) API to get images.
