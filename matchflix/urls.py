@@ -10,8 +10,9 @@ from accounts.views import RegistrationView, ProfileView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('accounts/', include('accounts.urls')),
     path('', include('flix.urls')),
-    path('accounts/', include('accounts.urls'))
+    path('shows/', include('shows.urls'))
 ]
 
 if settings.DEBUG:

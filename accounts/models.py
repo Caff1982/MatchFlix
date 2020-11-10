@@ -3,7 +3,7 @@ from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, Permis
 from django.contrib.auth import get_user_model
 from django.utils import timezone
 
-from flix.models import Show
+from shows.models import Show
 
 class AccountManager(BaseUserManager):
     use_in_migrations = True

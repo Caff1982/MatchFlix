@@ -1,5 +1,5 @@
 from django.core.management.base import BaseCommand, CommandError
-from flix.models import Show, Country, Category
+from shows.models import Show, Country, Category
 
 import csv
 
@@ -14,7 +14,7 @@ class Command(BaseCommand):
         """
         Iterates through rows in csv and creates Show objects.
         """
-        base_cdn_url = 'https://res.cloudinary.com/matchflix/image/upload/'
+        base_cdn_url = 'https://res.cloudinary.com/matchflix/image/upload/v1604933881/'
         with open(options['filepath'], 'r') as f:
             reader = csv.DictReader(f)
             for line in reader:

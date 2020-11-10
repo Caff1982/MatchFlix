@@ -7,6 +7,10 @@ a {
 	transition: color 1s;
 }
 
+tr {
+	cursor: pointer;
+}
+
 a:hover {
 	color: red;
 }

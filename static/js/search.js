@@ -1,6 +1,5 @@
 var send_data = {}
 
-
 $(document).ready(function($) {
 	// Get all Categories from Database
 	getCategories();
@@ -14,11 +13,8 @@ $(document).ready(function($) {
     var stored_country = sessionStorage.getItem('country');
     var stored_year = sessionStorage.getItem('year');
     if (stored_title != '')
-        console.log('stored title: ', stored_title);
-        // $('#title-search').html(stored_title);
         send_data['title'] = stored_title;
     if (stored_category != '')
-        console.log('stored cat: ', stored_category);
         send_data['category'] = stored_category;
     if (stored_country != '')
         console.log('stored country: ', stored_country);
@@ -111,8 +107,9 @@ function putTableData(result) {
         $("#list_data").show();
         $("#listing").html("");
         $.each(result["results"], function (a, b) {
-            detail_url = '/detail/' + b.id
-            row = `<tr><td><a href=${detail_url}>${b.title}</a></td>
+            detail_url = '/shows/detail/' + b.id
+            row = `<tr onclick="window.location='${detail_url}';">
+            <td>${b.title}</td>
             <td>${b.release_year}</td>
             <td>${b.description}</td>
             <td>${b.category_string}</td>

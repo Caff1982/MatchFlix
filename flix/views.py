@@ -1,17 +1,16 @@
 from django.shortcuts import render, get_object_or_404
 from django.db.models import Max, Min
-from django.http import JsonResponse
-from rest_framework.generics import ListAPIView
+
 
 import os
 import numpy as np
 import pandas as pd
 from sklearn.metrics.pairwise import cosine_similarity
 
-from .models import Show, Category, Country
+
 from accounts.models import Account
-from .serealizers import ShowSerealizers
-from .pagination import StandardResultsSetPagination
+from shows.models import Show
+
 
 
 def friend_search(request):
@@ -53,22 +52,7 @@ def random_browse(request):
     }
     return render(request, 'flix/random_browse.html', context)
 
-def detail_view(request, pk):
-    """
-    Detail view for shows/movies
-    """
-    show = Show.objects.filter(id=pk).first()
-    if request.method == 'POST':
-        user = request.user
-        if show in user.likes.all():
-            user.likes.remove(show)
-        else:
-            user.likes.add(show)
 
-    context = {
-        'show': show,
-    }
-    return render(request, 'flix/detail_view.html', context)
 
 def profile_view(request, pk):
     account = Account.objects.filter(id=pk).first()
@@ -138,58 +122,5 @@ def recommender_friends(request):
     }
     return render(request, 'flix/recommender_friends.html', context)
 
-def show_search(request):
-    return render(request, 'flix/show_search.html', {})
 
-class ShowListing(ListAPIView):
-    model = Show
-    # set the pagination and serializer class
-    pagination_class = StandardResultsSetPagination
-    serializer_class = ShowSerealizers
 
-    def get_queryset(self):
-        queryset = Show.objects.all()
-        title_query = self.request.query_params.get('title', None)
-        category_query = self.request.query_params.get('category', None)
-        country_query = self.request.query_params.get('country', None)
-        year_query = self.request.query_params.get('year', None)
-
-        if title_query:
-            queryset = queryset.filter(title__icontains=title_query)
-        if category_query:
-            if category_query != 'all':
-                queryset = queryset.filter(category__name=category_query)
-        if country_query:
-            if country_query != 'all':
-                queryset = queryset.filter(country__name=country_query)
-        if year_query:
-            if year_query != 'all':
-                queryset = queryset.filter(release_year=year_query)
-
-        return queryset
-
-def get_categories(request):
-    if request.method == 'GET' and request.is_ajax():
-        categories = Category.objects.all().values_list('name')
-        categories = [i[0] for i in list(categories)]
-        data = {
-            'categories': categories,
-        }
-        return JsonResponse(data, status=200)
-
-def get_countries(request):
-    if request.method == 'GET' and request.is_ajax():
-        countries = Country.objects.all().values_list('name')
-        countries = [i[0] for i in list(countries)]
-        data = {
-            'countries': countries,
-        }
-        return JsonResponse(data, status=200)
-
-def get_years(request):
-    if request.method == 'GET' and request.is_ajax():
-        years_qs = Show.objects.order_by('-release_year').values_list('release_year', flat=True).distinct()    
-        data = {
-            'years': list(years_qs),
-        }
-        return JsonResponse(data, status=200)
