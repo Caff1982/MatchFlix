@@ -1,19 +1,19 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render
 from django.db.models import Max, Min
-
+from rest_framework.generics import ListAPIView
 
 import os
 import numpy as np
 import pandas as pd
 from sklearn.metrics.pairwise import cosine_similarity
 
-
 from accounts.models import Account
 from shows.models import Show
+from .pagination import StandardResultsSetPagination
+from .serializers import RecommenderSerealizers
 
-
-
-
+def dashboard(request):
+    return render(request, 'recommender/dashboard.html')
 
 def get_random_show():
     """
@@ -25,8 +25,65 @@ def get_random_show():
     pk = np.random.randint(min_id, max_id)
     return Show.objects.get(pk=pk)
 
-def dashboard(request):
-    return render(request, 'recommender/dashboard.html')
+def recommender_view(request):
+    """
+    Returns the recommendations template
+    """
+    return render(request, 'recommender/recommender_view.html')
+
+class RecommenderListing(ListAPIView):
+    model = Show
+    # set the pagination and serializer class
+    pagination_class = StandardResultsSetPagination
+    serializer_class = RecommenderSerealizers
+
+    def get_queryset(self):
+        queryset = Show.objects.all()
+        # Select type of recommendations
+        rec_type = self.request.query_params.get('type', None)
+
+        if rec_type == 'self':
+            print('Self recs')
+            queryset = self.get_self_recs()
+        elif rec_type == 'friend':
+            self.get_friend_recs()
+        elif rec_type == 'random':
+            queryset = Show.objects.order_by('?')
+
+        return queryset
+
+    def get_self_recs(self):
+        """
+        Gets recommendations for one profile
+        """
+        likes = self.request.user.likes.all()
+        if len(likes) == 0:
+            # User must have likes to get recommendations
+            pass
+        
+        show_titles = [show.title for show in likes]
+        df = pd.read_csv('item_profiles.csv')
+        # User Profile is the mean of all user likes
+        user_profile = df[df['title'].isin(show_titles)].mean().values.reshape(1, -1)
+        # recs are the recommendations, ie labels/targets
+        recs = pd.DataFrame(data=df['title'], columns=['title'])
+        # df.drop(['title'], axis=1, inplace=True)
+        # Add cos theta as column to labels
+        recs['similarity'] = cosine_similarity(df.drop(['title'], axis=1), user_profile)
+        recs.sort_values(by=['similarity'], ascending=False, inplace=True)
+        # Use recs DataFrame to get list of Show objects
+        queryset = [Show.objects.filter(title=title)[0] for title in recs['title'].values[:100]]
+        print('Len queryset: ', len(queryset))
+        return queryset
+
+    def get_friend_recs(self):
+        """
+        Gets recommendations for two user profiles
+        """
+        pass
+
+
+
 
 def random_browse(request):
     """
@@ -50,8 +107,8 @@ def recommender_view(request):
     user = request.user
     likes = user.likes.all()
     if len(likes) == 0:
-        # If user has no likes yet return empty list
-        rec_shows = []
+        ### TODO: User myst have likes to get recommendations ###
+        pass
     else:
         df = pd.read_csv('item_profiles.csv')
         show_titles = [show.title for show in likes] 

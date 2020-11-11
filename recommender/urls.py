@@ -8,4 +8,5 @@ urlpatterns = [
     path('random/', random_browse, name='random_browse'),
     path('recommendations/', recommender_view, name='recommender_view'),
     path('recommendations-friends/', recommender_friends, name='recommender_friends'),
+    path('recommender_listing/', RecommenderListing.as_view(), name='recommender_listing'),
 ]

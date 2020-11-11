@@ -78,7 +78,6 @@ $(document).ready(function($) {
     })
 })
 
-
 // Function to reset all filters
 function resetFilters() {
     sessionStorage.removeItem('title');
