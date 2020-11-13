@@ -26,7 +26,7 @@ $(document).ready(function($) {
     getAPIData();
 
     // Text search
-    $('#title-search').on('keyup', function () {
+    $('#title-search').on('keyup', function() {
         send_data['title'] = this.value;
         // Get API data with updated filters
         getAPIData()
@@ -36,7 +36,7 @@ $(document).ready(function($) {
     })
 
 	// On selecting the category option
-	$('#categories').on('change', function () {
+	$('#categories').on('change', function() {
 		if (this.value == 'all')
 			send_data['category'] = '';
 		else
@@ -48,7 +48,7 @@ $(document).ready(function($) {
 	})
 
 	// On selecting the country option
-	$('#countries').on('change', function () {
+	$('#countries').on('change', function() {
 		if (this.value == 'all')
 			send_data['country'] = '';
 		else
@@ -60,7 +60,7 @@ $(document).ready(function($) {
 	})
 
     // On selecting the year option
-    $('#years').on('change', function () {
+    $('#years').on('change', function() {
         if (this.value == 'all')
             send_data['year'] = '';
         else
@@ -72,7 +72,7 @@ $(document).ready(function($) {
     })
 
 	// Reset the filters
-	$('#display_all').click(function(){
+	$('#display_all').click(function() {
         resetFilters();
         getAPIData();
     })

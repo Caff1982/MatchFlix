@@ -1,23 +1,23 @@
 var send_data = {};
 
 $(document).ready(function($) {
-	// Get recommendations for self from API
-	$('#self').on('click', function() {
-		$('#self').addClass('active');
-		send_data['type'] = 'self';
-	getAPIData();
-	});
+    // Get user's friends from Database
+    getFriends();
+    
 
-	$('#friend').on('click', function() {
-		send_data['type'] = 'friend';
-	getAPIData();
-	});
-
-	$('#random').on('click', function() {
-		send_data['type'] = 'random';
-	// Get API data with updated params
-	getAPIData();
-	});
+    // Get type of recommendations
+	$('.rec-type').on('click', function () {
+        $('.nav-link').removeClass('active');
+        $(this).addClass('active');
+        type = this.id
+        // Don't update for friend recommendations
+        if (type != 'friends') {
+            $('#results-table').css('display', 'inline-block');
+            send_data['type'] = type;
+            // Get API data with updated params
+            getAPIData();
+        }
+	}); 
 });
 
 // Function to get data from the API
@@ -27,7 +27,7 @@ function getAPIData() {
 		method: 'GET',
 		url: url,
 		data: send_data,
-		beforeSend: function() {
+		beforeSend: function () {
 			$("#no_results h5").html("Loading data...");
 		},
 		success: function (result) {
@@ -88,3 +88,74 @@ function putTableData(result) {
     $("#previous").attr("url", result["previous"]);
     $("#next").attr("url", result["next"]);
 }
+
+// Gets list of user's friends
+function getFriends() {
+    console.log('get friends');
+    let url = $('#friends').attr('url');
+    console.log('url: ', url);
+    $.ajax({
+        method: 'GET',
+        url: url,
+        data: {},
+        success: function (result) {
+            friends_option = "<a class='dropdown-item'>Choose a friend...</a>";
+            $.each(result['friends'], function (a, b) {
+                let friend = b;
+                friends_option += `<a class='dropdown-item' onclick="loadFriend('${b}')">${b}</a>`
+            });
+            $('#friends-dropdown').html(friends_option)
+        },
+        error: function(response) {
+            console.log(response)
+        }
+    });
+}
+
+// Get's Friend data from API
+function loadFriend (friend) {
+    console.log('loadFriend');
+    console.log(friend);
+    $('#results-table').css('display', 'inline-block');
+    send_data['type'] = 'friend';
+    send_data['friend'] = friend;
+    // Get API data with updated params
+    getAPIData();
+}
+
+// Next page button
+$("#next").click(function () {
+    let url = $(this).attr("url");
+    if (!url)
+        $(this).prop('all', true);
+
+    $(this).prop('all', false);
+    $.ajax({
+        method: 'GET',
+        url: url,
+        success: function(result) {
+            putTableData(result);
+        },
+        error: function(response){
+            console.log(response)
+        }
+    });
+})
+// Previous page button
+$("#previous").click(function () {
+    let url = $(this).attr("url");
+    if (!url)
+        $(this).prop('all', true);
+
+    $(this).prop('all', false);
+    $.ajax({
+        method: 'GET',
+        url: url,
+        success: function(result) {
+            putTableData(result);
+        },
+        error: function(response){
+            console.log(response)
+        }
+    });
+})

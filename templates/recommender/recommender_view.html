@@ -2,19 +2,30 @@
 {% load static %}
 {% block content %}
 
-<section class="site_filter">
-	<div class="container-fluid">
-		<div class="row">
-			<div class="btn-group" role="group">
-			  <button type="button" class="btn btn-secondary active" id="self">Recommendations for you</button>
-			  <button type="button" class="btn btn-secondary" id="friend">Friend Recommendations</button>
-			  <button type="button" class="btn btn-secondary" id="random">Roulette</button>
-			</div>
-		</div>
-	</div>
+<section>
+  <ul class="nav nav-pills nav-fill">
+    <li class="nav-item">
+      <div class="nav-link rec-type" id="self">
+        Recommendations for you
+      </div>
+    </li>
+    <li class="nav-item dropdown">
+      <div class="nav-link rec-type dropdown-toggle" id="friends" url="{% url 'get_friends' %}" data-toggle="dropdown" role="button" aria-haspopup="true"
+      aria-expanded="false">
+        Friend Recommendations
+      </div>
+      <div class="dropdown-menu" id="friends-dropdown">
+      </div>
+    </li>
+    <li class="nav-item">
+      <div class="nav-link rec-type" id="random">
+        Random Recommendations
+      </div>
+    </li>
+  </ul>
 </section>
 <br />
-<section>
+<section id="results-table">
 	<div class="container-fluid">
 		<table class="table table-bordered table-responsive table-hover" id="list_data" data-toggle="table" url = "{% url 'recommender_listing' %}">
 			<thead>

@@ -26,7 +26,7 @@ a:hover {
 #navbar-logo {
 	color: red;
 	font-size: 2rem;
-	margin-left: 1.75vw;
+	margin-left: 4vw;
 }
 
 .btn-dark {
@@ -38,5 +38,12 @@ a:hover {
 	max-width: 450px;
 }
 
+#results-table {
+	display: none;
+}
+
+.nav > .nav-item > .active { 
+    background-color: gray; 
+}
 
 
