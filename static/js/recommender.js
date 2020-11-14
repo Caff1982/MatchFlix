@@ -4,7 +4,6 @@ $(document).ready(function($) {
     // Get user's friends from Database
     getFriends();
     
-
     // Get type of recommendations
 	$('.rec-type').on('click', function () {
         $('.nav-link').removeClass('active');
@@ -44,6 +43,7 @@ function putTableData(result) {
 	// Utility function to create HTML table to 
 	// display data
 	let row;
+    console.log(result['results'].length);
 	if (result['results'].length > 0) {
 		$("#no_results").hide();
         $("#list_data").show();
@@ -61,7 +61,7 @@ function putTableData(result) {
 	}
 	else {
 		// if no result found for the given filter, then display no result
-        $("#no_results h5").html("No results found");
+        $("#no_results h5").html("You need to like some shows to get recommendations");
         $("#list_data").hide();
         $("#no_results").show();
 	}

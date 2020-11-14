@@ -4,13 +4,7 @@
 
 <h1>Username: {{ account.name }}</h1>
 <h3>Email: {{ account.email }}</h3>
-{% if account.date_of_birth %}
-<h3>Date of birth: {{ account.date_of_birth }}</h3>
-{% else %}
-<h3>Date of birth: N/A</h3>
-{% endif %}
 <h2>Likes:</h2>
-
 {% for show in account.likes.all %}
 <ul class="list-group">
 	<li class="list-group-item">

@@ -225,7 +225,7 @@ function getYears() {
 }
 
 
-
+// Next page button
 $("#next").click(function () {
     let url = $(this).attr("url");
     if (!url)
@@ -243,7 +243,7 @@ $("#next").click(function () {
         }
     });
 })
-
+// Previous page button
 $("#previous").click(function () {
     let url = $(this).attr("url");
     if (!url)
