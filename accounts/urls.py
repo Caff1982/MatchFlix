@@ -25,4 +25,6 @@ urlpatterns = [
 
     path('profile/<pk>/', profile_view, name='profile_view'),
     path('friends-search/', friend_search, name='friend_search'),
+    path('ajax/add-friend/', add_friend, name='add_friend'),
+    path('ajax/remove-friend/', remove_friend, name='remove_friend')
 ]

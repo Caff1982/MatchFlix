@@ -10,7 +10,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import ListView
 from django.views.generic.edit import CreateView, UpdateView
 from django.urls import reverse, reverse_lazy
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 
 from .models import Account
 from .forms import UserCreationForm, RegistrationForm
@@ -55,13 +55,31 @@ def friend_search(request):
 
 def profile_view(request, pk):
     account = Account.objects.filter(id=pk).first()
-    if request.method == 'POST':
-        user = request.user
-        if account in user.friends.all():
-            user.friends.remove(account)
-        else:
-            user.friends.add(account)
     context = {
         'account': account,
     }
     return render(request, 'accounts/profile_view.html', context)
+
+def add_friend(request):
+    if request.method == 'POST' and request.is_ajax():
+        user = request.user
+        friend_id = request.POST.get('friend_id')
+        friend_acc = Account.objects.get(id=friend_id)
+        user.friends.add(friend_acc)
+        user.save()
+        return HttpResponse(status=200)
+    else:
+        print('add friend error')
+        return HttpResponse(status=500)
+
+def remove_friend(request):
+    if request.method == 'POST' and request.is_ajax():
+        user = request.user
+        friend_id = request.POST.get('friend_id')
+        friend_acc = Account.objects.get(id=friend_id)
+        user.friends.remove(friend_acc)
+        user.save()
+        return HttpResponse(status=200)
+    else:
+        print('remove friend error')
+        return HttpResponse(status=500)
