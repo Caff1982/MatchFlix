@@ -18,9 +18,9 @@
 
 		{% if user.id != account.id %}
 			{% if account in user.friends.all %}
-				<button class="btn btn-dark btn-block" id="remove-friend" url="{% url 'remove_friend' %}"value="{{ account.id }}">Remove Friend</button>
+				<button class="btn btn-dark btn-block" id="add-friend-btn" value="{{ account.id }}">Remove Friend</button>
 			{% else %}
-				<button class="btn btn-dark btn-block" id="add-friend" url="{% url 'add_friend' %}" value="{{ account.id }}">Add Friend</button>
+				<button class="btn btn-dark btn-block" id="add-friend-btn" value="{{ account.id }}">Add Friend</button>
 			{% endif %}
 		{% endif %}
 	</div>

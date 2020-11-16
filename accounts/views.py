@@ -68,9 +68,6 @@ def add_friend(request):
         user.friends.add(friend_acc)
         user.save()
         return HttpResponse(status=200)
-    else:
-        print('add friend error')
-        return HttpResponse(status=500)
 
 def remove_friend(request):
     if request.method == 'POST' and request.is_ajax():
@@ -80,6 +77,3 @@ def remove_friend(request):
         user.friends.remove(friend_acc)
         user.save()
         return HttpResponse(status=200)
-    else:
-        print('remove friend error')
-        return HttpResponse(status=500)

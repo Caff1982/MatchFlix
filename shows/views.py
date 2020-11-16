@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from rest_framework.generics import ListAPIView
 
 from .models import Show, Category, Country
@@ -12,6 +12,23 @@ def show_search(request):
     Returns the show search template
     """
     return render(request, 'shows/show_search.html', {})
+
+def detail_view(request, pk):
+    """
+    Detail view for shows/movies
+    """
+    show = Show.objects.filter(id=pk).first()
+    if request.method == 'POST':
+        user = request.user
+        if show in user.likes.all():
+            user.likes.remove(show)
+        else:
+            user.likes.add(show)
+
+    context = {
+        'show': show,
+    }
+    return render(request, 'shows/detail_view.html', context)
 
 
 class ShowListing(ListAPIView):
@@ -78,20 +95,23 @@ def get_years(request):
         }
         return JsonResponse(data, status=200)
 
-
-def detail_view(request, pk):
-    """
-    Detail view for shows/movies
-    """
-    show = Show.objects.filter(id=pk).first()
-    if request.method == 'POST':
+def add_like(request):
+    if request.method == 'POST' and request.is_ajax():
         user = request.user
-        if show in user.likes.all():
-            user.likes.remove(show)
-        else:
-            user.likes.add(show)
+        show_id = request.POST.get('show_id')
+        show = Show.objects.get(show_id=show_id)
+        user.likes.add(show)
+        user.save()
+        return HttpResponse(status=200)
 
-    context = {
-        'show': show,
-    }
-    return render(request, 'shows/detail_view.html', context)
+def remove_like(request):
+    if request.method == 'POST' and request.is_ajax():
+        user = request.user
+        show_id = request.POST.get('show_id')
+        show = Show.objects.get(show_id=show_id)
+        user.likes.remove(show)
+        user.save()
+        return HttpResponse(status=200)
+
+
+

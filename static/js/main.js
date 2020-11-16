@@ -18,26 +18,13 @@ function getCookie(name) {
 //Prepare csrf token
 var csrf_token = getCookie('csrftoken');
 
-// Add friend button
-$('#add-friend').on('click', function() {
-	let url = $(this).attr("url");
-	console.log('url: ', url)
-	$.ajax({
-		method: "POST",
-		url: url,
-		data: {'friend_id': $(this).attr('value'),
-			     'csrfmiddlewaretoken': csrf_token},
-		'dataType': 'json',
- 	});
-  $(this).html("Remove Friend");
-  $(this).attr("id", "remove-friend");
-  $(this).attr("url", "{% url 'remove_friend' %}");
-});
-
-// Remove friend button
-$('#remove-friend').on('click', function() {
-  let url = $(this).attr("url");
-  console.log('url: ', url)
+// add/remove friend button
+$('#add-friend-btn').on('click', function() {
+  console.log('clicked');
+  console.log($(this).html());
+  let url = '/accounts/ajax/';
+  url = ($(this).html() == 'Add Friend') ? url += 'add-friend/' : url += 'remove-friend/';
+  console.log(url);
   $.ajax({
     method: "POST",
     url: url,
@@ -45,7 +32,32 @@ $('#remove-friend').on('click', function() {
            'csrfmiddlewaretoken': csrf_token},
     'dataType': 'json',
   });
-  $(this).html("Add Friend");
-  $(this).attr("id", "add-friend");
-  $(this).attr("url", "{% url 'add_friend' %}");
+  if ($(this).html() == 'Add Friend') {
+    $(this).html('Remove Friend')
+  }
+  else {
+    $(this).html('Add Friend')
+  }
+});
+
+// Like/Un-like button
+$('#like-button').on('click', function() {
+  console.log('clicked');
+  console.log($(this).html());
+  let url = '/shows/ajax/';
+  url = ($(this).html() == 'Like') ? url += 'add-like/' : url += 'remove-like/';
+  console.log(url);
+  $.ajax({
+    method: "POST",
+    url: url,
+    data: {'show_id': $(this).attr('value'),
+           'csrfmiddlewaretoken': csrf_token},
+    'dataType': 'json',
+  });
+  if ($(this).html() == 'Like') {
+    $(this).html('Remove from likes')
+  }
+  else {
+    $(this).html('Like')
+  }
 });
