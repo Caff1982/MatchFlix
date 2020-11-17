@@ -23,9 +23,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'bxfd3ie^z(vuzq$__-xt4+(wqm_sc_0#ll%o46mj*cw6k0zp^0'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['matchflix-v1.herokuapp.com/', '127.0.0.1']
 
 
 # Application definition

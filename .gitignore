@@ -1,4 +1,5 @@
 utils/config.py
 media/
+env/
 
 db.sqlite3

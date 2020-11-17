@@ -4,7 +4,6 @@ from rest_framework.generics import ListAPIView
 from django.http import JsonResponse
 
 import os
-import numpy as np
 import pandas as pd
 from sklearn.metrics.pairwise import cosine_similarity
 
