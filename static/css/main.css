@@ -23,6 +23,11 @@ a:hover {
 	margin-top: 5rem;
 }
 
+#friend-searchbox {
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
 .nav-item {
 	max-width: 400px;
 }

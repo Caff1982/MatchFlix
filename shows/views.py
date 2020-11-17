@@ -41,6 +41,9 @@ class ShowListing(ListAPIView):
     serializer_class = ShowSerealizers
 
     def get_queryset(self):
+        """
+        Filters queryset based on search params
+        """
         queryset = Show.objects.all()
         title_query = self.request.query_params.get('title', None)
         category_query = self.request.query_params.get('category', None)
@@ -96,6 +99,9 @@ def get_years(request):
         return JsonResponse(data, status=200)
 
 def add_like(request):
+    """
+    Ajax call to add like
+    """
     if request.method == 'POST' and request.is_ajax():
         user = request.user
         show_id = request.POST.get('show_id')
@@ -105,6 +111,9 @@ def add_like(request):
         return HttpResponse(status=200)
 
 def remove_like(request):
+    """
+    Ajax call to remove like
+    """
     if request.method == 'POST' and request.is_ajax():
         user = request.user
         show_id = request.POST.get('show_id')
@@ -112,6 +121,3 @@ def remove_like(request):
         user.likes.remove(show)
         user.save()
         return HttpResponse(status=200)
-
-
-

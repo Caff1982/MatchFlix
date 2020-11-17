@@ -5,43 +5,30 @@
 <div class="container">
 	<h1>Welcome to MatchFlix!</h1>
 	<br>
-	<p>MatchFlix helps you decide what to watch on Netflix. You can also get recommendations for you and a friend.
+	<p>MatchFlix helps you decide what to watch on Netflix. You can also get recommendations for you and a friend. The algorithm works by finding shows and movies that are most similar to your likes. To get started simply register, like and then receive recommendations. 
 	<p>For more information please view the README <a href="https://github.com/Caff1982/MatchFlix/blob/main/README.md">here</a></p>
 </div>
-
+<br>
 {% if user.is_authenticated %}
 	<div class="container">
 		<div class="row">
-			<div class="col-md">
-				<h3>Your Friends:</h3>
+			<div class="col-sm">
+				<h3>Friends</h3>
 					{% if user.friends.all|length == 0 %}
 						<p>You don't have any friends yet</p>
 					{% else %}
-						<ul class="list-group">
-							{% for friend in user.friends.all %}
-							<li class="list-group-item">
-								<a href="{% url 'profile_view' friend.id %}">{{ friend.name }}</a>
-							</li>
-							{% endfor %}
-						</ul>
+						<p>You have {{ user.friends.all| length }} friends</p>
 					{% endif %}
-					<form action="{% url 'friend_search' %}" method="GET">
-						<input type="text" name="q" placeholder="Search for friends...">
-					</form>
-			</div>
-			<div class="col-md">
-				<h3>Your Likes:</h3>
+					<a href="{% url 'friend_search' %}">Search for friends</a>
+				</div>
+			<div class="col-sm">
+				<h3>Likes</h3>
 				{% if user.likes.all|length == 0 %}
 					<p>You have not liked any shows yet</p>
 				{% else %}
-					<ul class="list-group">
-						{% for show in user.likes.all %}
-						<li class="list-group-item">
-							<a href="{% url 'detail_view' show.id %}">{{ show.title }}</a>
-						</li>
-						{% endfor %}
-					</ul>
+					<p>You have liked {{ user.likes.all|length }} shows</p>
 				{% endif %}
+				<a href="{% url 'show_search' %}">Search shows/movies</a>
 			</div>
 		</div>
 	</div>

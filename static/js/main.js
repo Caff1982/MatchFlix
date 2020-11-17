@@ -20,11 +20,8 @@ var csrf_token = getCookie('csrftoken');
 
 // add/remove friend button
 $('#add-friend-btn').on('click', function() {
-  console.log('clicked');
-  console.log($(this).html());
   let url = '/accounts/ajax/';
   url = ($(this).html() == 'Add Friend') ? url += 'add-friend/' : url += 'remove-friend/';
-  console.log(url);
   $.ajax({
     method: "POST",
     url: url,
@@ -42,11 +39,8 @@ $('#add-friend-btn').on('click', function() {
 
 // Like/Un-like button
 $('#like-button').on('click', function() {
-  console.log('clicked');
-  console.log($(this).html());
   let url = '/shows/ajax/';
   url = ($(this).html() == 'Like') ? url += 'add-like/' : url += 'remove-like/';
-  console.log(url);
   $.ajax({
     method: "POST",
     url: url,

@@ -14,6 +14,9 @@ from .pagination import StandardResultsSetPagination
 from .serializers import RecommenderSerealizers
 
 def dashboard(request):
+    """
+    Returns the dashboard/home template
+    """
     return render(request, 'recommender/dashboard.html')
 
 def recommender_view(request):
@@ -23,6 +26,9 @@ def recommender_view(request):
     return render(request, 'recommender/recommender_view.html')
 
 class RecommenderListing(ListAPIView):
+    """
+    Class-based view for recommendations.
+    """
     model = Show
     # set the pagination and serializer class
     pagination_class = StandardResultsSetPagination
@@ -33,15 +39,14 @@ class RecommenderListing(ListAPIView):
         # Select type of recommendations
         rec_type = self.request.query_params.get('type', None)
 
-        if rec_type == 'self':
+        if rec_type == 'self': # Recommendations for one profile
             queryset = self.get_self_recs()
-        elif rec_type == 'friend':
+        elif rec_type == 'friend': # Recommendations for two profiles
             friend = self.request.query_params.get('friend', None)
             if friend:
                 queryset = self.get_friend_recs(friend)
-        elif rec_type == 'random':
+        elif rec_type == 'random': # Returns random recommendations
             queryset = Show.objects.order_by('?')
-        print('Len of queryset: ', len(queryset))
         return queryset
 
     def get_self_recs(self):
@@ -74,16 +79,15 @@ class RecommenderListing(ListAPIView):
         user_likes = self.request.user.likes.all()
         friend_likes = Account.objects.get(name=friend).likes.all()
         if (len(user_likes) | len(friend_likes)) == 0:
-            print('Either user or friend has no likes')
             # Must have likes to get recommendations
             return []
-        # Add the two querysets together
+        # Combine the two querysets together
         likes = user_likes | friend_likes
         df = pd.read_csv('item_profiles.csv')
         show_titles = [show.title for show in likes] 
         # User Profile is the mean of all user likes
         user_profile = df[df['title'].isin(show_titles)].mean().values.reshape(1, -1)
-        # Keep titles for recommendations, drop from df
+        # recs will be recommendations, keep title for labelling
         recs = pd.DataFrame(data=df['title'], columns=['title'])
         df.drop(['title'], axis=1, inplace=True)
         # Add cos theta as column to labels
@@ -105,87 +109,3 @@ def get_friends(request):
             'friends': friends,
         }
         return JsonResponse(data, status=200)
-
-def recommender_friends(request):
-    user = request.user
-    user_likes = user.likes.all()
-    user_friends = user.friends.all()
-
-    friend_id = request.GET.get('friend')
-    if friend_id:
-        friend = Account.objects.filter(id=friend_id).first()
-        friend_likes = friend.likes.all()
-        # Add the two querysets together
-        likes = user_likes | friend_likes
-
-        df = pd.read_csv('item_profiles.csv')
-        show_titles = [show.title for show in likes] 
-        # User Profile is the mean of all user likes
-        user_profile = df[df['title'].isin(show_titles)].mean().values.reshape(1, -1)
-        # Keep titles for recommendations, drop from df
-        recs = pd.DataFrame(data=df['title'], columns=['title'])
-        df.drop(['title'], axis=1, inplace=True)
-        # Add cos theta as column to labels
-        recs['similarity'] = cosine_similarity(df, user_profile)
-        recs.sort_values(by=['similarity'], ascending=False, inplace=True)
-        # Use recs DataFrame to get list of Show objects
-        rec_shows = [Show.objects.filter(title=title)[0] for title in recs['title'].values[:25]]
-    else:
-        rec_shows = []
-
-    context = {
-        'user_friends': user_friends,
-        'queryset': rec_shows
-    }
-    return render(request, 'recommender/recommender_friends.html', context)
-
-
-
-def random_browse(request):
-    """
-    Displays a random show which the user can like
-    """
-    if request.method == 'POST':
-        user = request.user
-        last_show = Show.objects.filter(id=request.POST['show_id']).first()
-        if last_show in user.likes.all():
-            user.likes.remove(last_show)
-        else:
-            user.likes.add(last_show)
-
-    show = get_random_show()
-    context = {
-        'show': show,
-    }
-    return render(request, 'recommender/random_browse.html', context)
-
-# def recommender_view(request):
-#     user = request.user
-#     likes = user.likes.all()
-#     if len(likes) == 0:
-#         ### TODO: User myst have likes to get recommendations ###
-#         pass
-#     else:
-#         df = pd.read_csv('item_profiles.csv')
-#         show_titles = [show.title for show in likes] 
-#         # User Profile is the mean of all user likes
-#         user_profile = df[df['title'].isin(show_titles)].mean().values.reshape(1, -1)
-#         # Keep titles for recommendations, drop from df
-#         recs = pd.DataFrame(data=df['title'], columns=['title'])
-#         df.drop(['title'], axis=1, inplace=True)
-#         # Add cos theta as column to labels
-#         recs['similarity'] = cosine_similarity(df, user_profile)
-#         recs.sort_values(by=['similarity'], ascending=False, inplace=True)
-#         # Use recs DataFrame to get list of Show objects
-#         rec_shows = [Show.objects.filter(title=title)[0] for title in recs['title'].values[:25]]
-
-#     context = {
-#         'queryset': rec_shows
-#     }
-#     return render(request, 'recommender/recommender_view.html', context)
-
-
-
-
-
-

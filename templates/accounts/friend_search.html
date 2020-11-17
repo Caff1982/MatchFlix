@@ -2,18 +2,15 @@
 {% block content %}
 
 <div class="container-fluid">
-	<h1>Friend Search</h1>
-	<p>You have {{ user.friends.count }} friends so far</p>
-
-	<form action="{% url 'friend_search' %}" method="GET">
+	<h2>Friend Search</h2>
+	<form action="{% url 'friend_search' %}" method="GET" id="friend-searchbox">
 		<input type="text" name="q" placeholder="Search for friends...">
 	</form>
-
 	<ul class="list-group">
-		{% for user in user_list %}
-		<a href="{% url 'profile_view' user.id %}">
+		{% for account in user_list %}
+		<a href="{% url 'profile_view' account.id %}">
 			<li class="list-group-item">
-				{{ user.name }}
+				{{ account.name }}
 			</li>
 		</a>
 		{% endfor %}
