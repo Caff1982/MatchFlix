@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<section>
+  <ul class="nav nav-pills nav-fill my-3">
+    <li class="nav-item">
+      <div class="nav-link rec-type" id="self">
+        Recommendations for you
+      </div>
+    </li>
+    <li class="nav-item dropdown">
+      <div class="nav-link rec-type dropdown-toggle" id="friends" url="{% url 'get_friends' %}" data-toggle="dropdown" role="button" aria-haspopup="true"
+      aria-expanded="false">
+        Friend Recommendations
+      </div>
+      <div class="dropdown-menu" id="friends-dropdown">
+      </div>
+    </li>
+    <li class="nav-item">
+      <div class="nav-link rec-type" id="random">
+        Random Recommendations
+      </div>
+    </li>
+  </ul>
+</section>
+<br />
+<section id="results-table">
+	<div class="container-fluid">
+    <div class="row properties_table justify-content-center">
+  		<div id="no_results">
+        <h5>You need to like some shows to get recommendations</h5>
+      </div>
+      <table class="table table-bordered table-responsive table-hover" id="list_data" data-toggle="table" url = "{% url 'recommender_listing' %}">
+  			<thead>
+          <tr>
+            <th data-field="title">Title</th>
+            <th data-field="year">Year</th>
+            <th data-field="Description">Description</th>
+            <th data-field="category">Category</th>
+            <th data-field="category">Country</th>
+          </tr>
+        </thead>
+        <tbody id="listing">
+        </tbody>
+  		</table>
+		</div>
+		<div class="row justify-content-center">
+      <nav aria-label="navigation">
+        <ul class="pagination">
+        <li class="page-item">
+            <button class="btn btn-dark" id="previous">Previous</button>
+          </li>
+          <li class="page-item pull-right">
+            <button class="btn btn-dark" id="next">Next</button>
+          </li>
+        </ul>
+      </nav>
+  	</div>
+	</div>
+</section>
+
+{% endblock %}
+
+{% block page_scripts %}
+<script src="{% static '/js/recommender.js' %}" type="text/javascript"></script>
+{% endblock %}

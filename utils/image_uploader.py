@@ -20,7 +20,7 @@ def upload_file(filepath):
     Uploads files to Cloudinary
     https://github.com/cloudinary/pycloudinary/blob/master/samples/basic/basic.py
     """
-    fname = filepath.split('/')[-1][:-4]
+    fname = filepath.split('/')[-1][:-4] + 'tn'
 
     response = upload(filepath,
                       public_id=fname,
@@ -30,7 +30,8 @@ def upload_file(filepath):
 
     url, options = cloudinary_url(response['public_id'],
                                   format=response['format'])
-    print('URL: ', url)
+    with open('url_log.txt', 'a') as f:
+        f.write(f'File: {fname}, URL: {url}\n')
 
 
 def upload_dir(dir_path):
@@ -49,4 +50,4 @@ def upload_dir(dir_path):
 
 
 if __name__ == '__main__':
-    upload_dir('./media/scaled_images')
+    upload_dir('./media/images')

@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.db.models import Max, Min
-from rest_framework.generics import ListAPIView
+from django.views.generic import ListView
 from django.http import JsonResponse
 
 import os
@@ -9,8 +9,6 @@ from sklearn.metrics.pairwise import cosine_similarity
 
 from accounts.models import Account
 from shows.models import Show
-from .pagination import StandardResultsSetPagination
-from .serializers import RecommenderSerealizers
 
 def dashboard(request):
     """
@@ -24,20 +22,20 @@ def recommender_view(request):
     """
     return render(request, 'recommender/recommender_view.html')
 
-class RecommenderListing(ListAPIView):
+class RecommenderListing(ListView):
     """
     Class-based view for recommendations.
     """
     model = Show
-    # set the pagination and serializer class
-    pagination_class = StandardResultsSetPagination
-    serializer_class = RecommenderSerealizers
+    template_name = 'recommender/recommender_view.html'
+    paginate_by = 20
 
     def get_queryset(self):
         queryset = Show.objects.all()
+        print('kwargs: ', self.kwargs)
         # Select type of recommendations
-        rec_type = self.request.query_params.get('type', None)
-
+        rec_type = self.kwargs['type']
+        print('rec_type: ', rec_type)
         if rec_type == 'self': # Recommendations for one profile
             queryset = self.get_self_recs()
         elif rec_type == 'friend': # Recommendations for two profiles
@@ -46,6 +44,7 @@ class RecommenderListing(ListAPIView):
                 queryset = self.get_friend_recs(friend)
         elif rec_type == 'random': # Returns random recommendations
             queryset = Show.objects.order_by('?')
+        print('Len queryset: ', len(queryset))
         return queryset
 
     def get_self_recs(self):
@@ -93,7 +92,7 @@ class RecommenderListing(ListAPIView):
         recs['similarity'] = cosine_similarity(df, user_profile)
         recs.sort_values(by=['similarity'], ascending=False, inplace=True)
         # Use recs DataFrame to get list of Show objects
-        rec_shows = [Show.objects.filter(title=title)[0] for title in recs['title'].values[:25]]
+        rec_shows = [Show.objects.filter(title=title)[0] for title in recs['title'].values[:100]]
         return rec_shows
 
 

@@ -6,7 +6,7 @@
   <ul class="nav nav-pills nav-fill my-3">
     <li class="nav-item">
       <div class="nav-link rec-type" id="self">
-        Recommendations for you
+        <a href="{% url 'recommender_view' type='self' %}">Recommendations for you</a>
       </div>
     </li>
     <li class="nav-item dropdown">
@@ -19,7 +19,7 @@
     </li>
     <li class="nav-item">
       <div class="nav-link rec-type" id="random">
-        Random Recommendations
+        <a href="{% url 'recommender_view' type='random' %}">Random Recommendations</a>
       </div>
     </li>
   </ul>
@@ -27,33 +27,63 @@
 <br />
 <section id="results-table">
 	<div class="container-fluid">
-    <div class="row properties_table justify-content-center">
-  		<div id="no_results">
-        <h5>You need to like some shows to get recommendations</h5>
-      </div>
-      <table class="table table-bordered table-responsive table-hover" id="list_data" data-toggle="table" url = "{% url 'recommender_listing' %}">
-  			<thead>
-          <tr>
-            <th data-field="title">Title</th>
-            <th data-field="year">Year</th>
-            <th data-field="Description">Description</th>
-            <th data-field="category">Category</th>
-            <th data-field="category">Country</th>
-          </tr>
-        </thead>
-        <tbody id="listing">
-        </tbody>
-  		</table>
+    <div class="row">
+      {% for show in object_list %}
+          <div class="thumbnail" id="{{ show.id }}" data-target="modal-popup{{ show.id }}">
+            <center><h5>{{ show.title }}</h5></center>
+            <img src="http://res.cloudinary.com/matchflix/image/upload/{{ show.show_id }}tn.jpg">
+          </div>
+          <div class="modal" id="modal-popup{{ show.id }}">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h3>{{ show.title }}</h3>
+                <span class="close-btn">&times;</span>
+              </div>
+              <div class="modal-body">
+                <div class="row">
+                  <div class="col-md">
+                    <img class ="fullsize-image img-fluid" src="{{ show.image_url }}">
+                  </div>
+                  <div class="col-md">
+                    <h5>Title: {{ show.title }}</h5>
+                    <h5>Year: {{ show.release_year }}</h5>
+                    <h5>Director: {{ show.director }}</h5>
+                    <h5>Rating: {{ show.rating }}</h5>
+                    <h5>Duration: {{ show.duration }}</h5>
+                    <h5>Description: {{ show.description }}</h5>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+      {% endfor %}
+
 		</div>
 		<div class="row justify-content-center">
       <nav aria-label="navigation">
         <ul class="pagination">
-        <li class="page-item">
-            <button class="btn btn-dark" id="previous">Previous</button>
-          </li>
-          <li class="page-item pull-right">
-            <button class="btn btn-dark" id="next">Next</button>
-          </li>
+          {% if page_obj.has_previous %}
+            <li class="page-item">
+              <a href="?page={{ page_obj.previous_page_number }}">
+                <button class="btn btn-secondary" id="previous">Previous</button>
+            </li>
+          {% else %}
+            <li class="page-item">
+              <button class="btn btn-secondary disabled" id="previous">Previous</button>
+            </li>
+          {% endif %}
+          {% if page_obj.has_next %}
+            <li class="page-item pull-right">
+              <a href="?page={{ page_obj.next_page_number }}">
+                <button class="btn btn-secondary" id="next">Next</button>
+              </a>
+            </li>
+          {% else %}
+            <li class="page-item pull-right">
+              <button class="btn btn-secondary disabled" id="next">Next</button>
+            </li>
+          {% endif %}
         </ul>
       </nav>
   	</div>
