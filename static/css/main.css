@@ -13,6 +13,14 @@ tr {
 
 a:hover {
 	color: red;
+	text-decoration: none;
+}
+
+/* Dashboard */
+.welcome-text {
+	font-size: 1.1rem;
+	max-width: 800px;
+	margin-top: 5vh;
 }
 
 .card {
@@ -49,7 +57,7 @@ a:hover {
 #navbar-logo {
 	color: red;
 	font-size: 2rem;
-	margin-left: 4vw;
+	margin-left: 5vw;
 }
 
 .btn-dark {
@@ -72,6 +80,7 @@ a:hover {
 
 .rec-type {
 	font-size: 1.1rem;
+	cursor: pointer;
 }
 
 .thumbnail {
@@ -79,6 +88,13 @@ a:hover {
 	padding: 22px 22px 22px 22px;
 	cursor: pointer;
 }
+
+.dropdown-toggle[aria-expanded="true"] {
+  background-color: lightgray !important;
+  color: #000 !important;
+}
+
+
 
 
 /* Modal popups */
@@ -99,15 +115,16 @@ a:hover {
 }
 
 .modal-header {
-	margin: 1vh;
+	color: #F0F0F0;
+	background-color: #292b2c;
+	padding: 8px 8px;
 }
 
 
-
 .close-btn {
-	font-size: 30px;
+	font-size: 50px;
+	font-weight: 200;
 	cursor: pointer;
-	float: right;
 }
 
 .fullsize-image {

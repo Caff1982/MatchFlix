@@ -6,7 +6,7 @@ from cloudinary.uploader import upload
 from cloudinary.utils import cloudinary_url
 import cloudinary
 
-from config import CLOUD_KEY, CLOUD_SECRET, CLOUD_NAME
+from .config import CLOUD_KEY, CLOUD_SECRET, CLOUD_NAME
 
 
 cloudinary.config(

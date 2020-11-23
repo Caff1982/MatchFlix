@@ -119,7 +119,7 @@ function getFriends() {
             friends_option = "<a class='dropdown-item'>Choose a friend...</a>";
             $.each(result['friends'], function (a, b) {
                 let friend = b;
-                friends_option += `<a class='dropdown-item' onclick="loadFriend('${b}')">${b}</a>`
+                friends_option += `<a class='dropdown-item' href="/recommendations/friend/${b}">${b}</a>`
             });
             $('#friends-dropdown').html(friends_option)
         },

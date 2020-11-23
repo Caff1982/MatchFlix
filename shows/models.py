@@ -44,6 +44,7 @@ class Show(models.Model):
     duration = models.CharField(max_length=20)
     description = models.CharField(max_length=250)
     image_url = models.CharField(max_length=50, default='default_image.jpg')
+    thumbnail_url = models.CharField(max_length=50, default='default_image.jpg')
 
     category = models.ManyToManyField(Category)
     country = models.ManyToManyField(Country)

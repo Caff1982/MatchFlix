@@ -2,7 +2,7 @@ import csv
 import requests
 import time
 
-from config import TMDB_API_KEY
+from .config import TMDB_API_KEY
 
 from tmdbv3api import TMDb, Movie, TV
 

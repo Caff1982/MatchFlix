@@ -2,10 +2,10 @@
 {% load crispy_forms_tags %}
 {% block content %}
 
-<div class="container-fluid mt-4">	
+<div class="container-fluid mt-5">	
 	<div class="row">
-		<div class="col-sm">
-			<h1>{{ account.name }}</h1>
+		<div class="col-md">
+			<h1>Name: {{ account.name }}</h1>
 			<h3>Email: {{ account.email }}</h3>
 			{% if user.id != account.id %}
 				{% if account in user.friends.all %}
@@ -15,7 +15,7 @@
 				{% endif %}
 			{% endif %}
 		</div>
-		<div class="col-sm">
+		<div class="col-md">
 			<h2>Likes:</h2>
 			<ul class="list-group">
 				{% for show in account.likes.all %}
@@ -26,7 +26,7 @@
 				{% endfor %}
 			</ul>
 		</div>
-		<div class="col-sm">
+		<div class="col-md">
 			<h2>Friends:</h2>
 			<ul class="list-group">
 				{% for user in account.friends.all %}

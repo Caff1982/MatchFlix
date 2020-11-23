@@ -32,19 +32,16 @@ class RecommenderListing(ListView):
 
     def get_queryset(self):
         queryset = Show.objects.all()
-        print('kwargs: ', self.kwargs)
         # Select type of recommendations
         rec_type = self.kwargs['type']
-        print('rec_type: ', rec_type)
         if rec_type == 'self': # Recommendations for one profile
             queryset = self.get_self_recs()
         elif rec_type == 'friend': # Recommendations for two profiles
-            friend = self.request.query_params.get('friend', None)
+            friend = self.kwargs['friend_name']
             if friend:
                 queryset = self.get_friend_recs(friend)
         elif rec_type == 'random': # Returns random recommendations
             queryset = Show.objects.order_by('?')
-        print('Len queryset: ', len(queryset))
         return queryset
 
     def get_self_recs(self):
@@ -55,7 +52,6 @@ class RecommenderListing(ListView):
         if len(likes) == 0:
             # User must have likes to get recommendations
             return []
-        
         show_titles = [show.title for show in likes]
         df = pd.read_csv('item_profiles.csv')
         # User Profile is the mean of all user likes
@@ -76,7 +72,7 @@ class RecommenderListing(ListView):
         """
         user_likes = self.request.user.likes.all()
         friend_likes = Account.objects.get(name=friend).likes.all()
-        if (len(user_likes) | len(friend_likes)) == 0:
+        if len(user_likes) == 0 or len(friend_likes) == 0:
             # Must have likes to get recommendations
             return []
         # Combine the two querysets together
