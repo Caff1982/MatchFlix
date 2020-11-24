@@ -5,35 +5,47 @@
 <section class="site_filter">
 	<div class="container-fluid">
 		<div class="row">
-			<div class="col-sm2 col-2">
-				<div class="md-form mt-0">
-					<label for="title">Search by title</label>
-				    <input id="title-search" class="form-control" type="text" placeholder="Search" aria-label="Search">
+			<form method="GET">
+				<div class="col-sm2">
+					<div class="form-group">
+						{{ form.title.errors }}
+						<label for="{{ form.title.id_for_label }}">Search by title</label>
+						{{ form.title }}
+					</div>
 				</div>
-			</div>
-			<div class="col-sm2 col-2">
-				<div class="form-group">
-					<label for="category">Category</label>
-					<select class="form-control" id="categories" url="{% url 'get_categories' %}"></select>
+				<div class="col-sm2">
+					<div class="form-group">
+						{{ form.category.errors }}
+						<label for="{{ form.title_search.id_for_label }}">Category</label>
+						{{  form.category }}
+					</div>
 				</div>
-			</div>
-			<div class="col-sm-2 col-2">
-				<div class="form-group">
-					<label for="country">Country</label>
-					<select class="form-control" id="countries" url="{% url 'get_countries' %}"></select>
+				<div class="col-sm2">
+					<div class="form-group">
+						{{ form.country.errors }}
+						<label for="country">Country</label>
+						{{ form.country }}
+					</div>
 				</div>
-			</div>
-			<div class="col-sm-2 col-2">
-				<div class="form-group">
-					<label for="year">Year</label>
-					<select class="form-control" id="years" url="{% url 'get_years' %}"></select>
+				<div class="col-sm2">
+					<div class="form-group">
+						{{ form.year.errors }}
+						<label for="{{ form.title_search.id_for_label }}">Year</label>
+						{{ form.year }}
+					</div>
 				</div>
-			</div>
-			<div class="col-sm-2 col-2">
-        <div class="row justify-content-center align-self-center">
-            <a class="btn btn-secondary" id="display_all">Display all</a>
-        </div>
-      </div>
+				<button type="submit">Search</button>
+				<div class="col-sm-2 col-2">
+	        <div class="row justify-content-center align-self-center">
+	        	<a class="btn btn-secondary" id="display_all">Display all</a>
+	        </div>
+	      </div>
+			</form>
+			
+
+
+
+
 		</div>
 	</div>
 </section>
@@ -41,24 +53,44 @@
 <section>
 	<div class="container-fluid">
 		<div id="result-count" class="text-right">
-			<span class="font-weight-bold"></span> results found.
+			<span class="font-weight-bold">{{ page_obj.paginator.count }}</span> results found.
 		</div>
-		<div class="row properties_table justify-content-center">
-			<div id="no_results">
-				<h5>No results found</h5>
-			</div>
-			<table class="table table-bordered table-responsive table-hover" id="list_data" data-toggle="table" url = "{% url 'show_listing' %}">
-				<thead>
-          <tr>
-            <th data-field="title">Title</th>
-            <th data-field="year">Year</th>
-            <th data-field="Description">Description</th>
-            <th data-field="category">Category</th>
-            <th data-field="category">Country</th>
-          </tr>
-        </thead>
-        <tbody id="listing">
-        </tbody>
+		<div class="row">
+			{% if object_list|length == 0 %}
+        <div id="no_results">
+					<h5>No results found</h5>
+				</div>
+      {% else %}
+        {% for show in object_list %}
+          <div class="thumbnail" id="{{ show.id }}" data-target="modal-popup{{ show.id }}">
+            <center><h5>{{ show.title }}</h5></center>
+            <img src="{{ show.thumbnail_url }}">
+          </div>
+          <div class="modal" id="modal-popup{{ show.id }}">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h2 class="show-title">{{ show.title }}</h2>
+                <span class="close-btn">&times;</span>
+              </div>
+              <div class="modal-body">
+                <div class="row">
+                  <div class="col-md">
+                    <img class ="fullsize-image img-fluid" src="{{ show.image_url }}">
+                  </div>
+                  <div class="col-md">
+                    <h5>Title: {{ show.title }}</h5>
+                    <h5>Year: {{ show.release_year }}</h5>
+                    <h5>Director: {{ show.director }}</h5>
+                    <h5>Rating: {{ show.rating }}</h5>
+                    <h5>Duration: {{ show.duration }}</h5>
+                    <h5>Description: {{ show.description }}</h5>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      {% endif %}
 			</table>
 		</div>
 		<div class="row justify-content-center">

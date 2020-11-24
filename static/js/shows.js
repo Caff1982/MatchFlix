@@ -8,74 +8,74 @@ $(document).ready(function($) {
     // Get range of release years
     getYears();
     // Load previous state from sessionStorage
-    var stored_title = sessionStorage.getItem('title');
-    var stored_category = sessionStorage.getItem('category');
-    var stored_country = sessionStorage.getItem('country');
-    var stored_year = sessionStorage.getItem('year');
-    if (stored_title != '')
-        send_data['title'] = stored_title;
-    if (stored_category != '')
-        send_data['category'] = stored_category;
-    if (stored_country != '')
-        console.log('stored country: ', stored_country);
-        send_data['country'] = stored_country;
-    if (stored_year != '')
-        console.log('stored year: ', stored_year);
-        send_data['year'] = stored_year;
+    // var stored_title = sessionStorage.getItem('title');
+    // var stored_category = sessionStorage.getItem('category');
+    // var stored_country = sessionStorage.getItem('country');
+    // var stored_year = sessionStorage.getItem('year');
+    // if (stored_title != '')
+    //     send_data['title'] = stored_title;
+    // if (stored_category != '')
+    //     send_data['category'] = stored_category;
+    // if (stored_country != '')
+    //     console.log('stored country: ', stored_country);
+    //     send_data['country'] = stored_country;
+    // if (stored_year != '')
+    //     console.log('stored year: ', stored_year);
+    //     send_data['year'] = stored_year;
     // Load the data
-    getAPIData();
+    // getAPIData();
 
-    // Text search
-    $('#title-search').on('keyup', function() {
-        send_data['title'] = this.value;
-        // Get API data with updated filters
-        getAPIData()
-        // Store data in sessionStorage
-        sessionStorage.setItem('title', this.value);
-        // console.log(this.value);
-    })
+ //    // Text search
+ //    $('#title-search').on('keyup', function() {
+ //        send_data['title'] = this.value;
+ //        // Get API data with updated filters
+ //        getAPIData()
+ //        // Store data in sessionStorage
+ //        sessionStorage.setItem('title', this.value);
+ //        // console.log(this.value);
+ //    })
 
-	// On selecting the category option
-	$('#categories').on('change', function() {
-		if (this.value == 'all')
-			send_data['category'] = '';
-		else
-			send_data['category'] = this.value;
-		// Get API data with updated filters
-		getAPIData();
-        // Store data in sessionStorage
-        sessionStorage.setItem('category', this.value);
-	})
+	// // On selecting the category option
+	// $('#categories').on('change', function() {
+	// 	if (this.value == 'all')
+	// 		send_data['category'] = '';
+	// 	else
+	// 		send_data['category'] = this.value;
+	// 	// Get API data with updated filters
+	// 	getAPIData();
+ //        // Store data in sessionStorage
+ //        sessionStorage.setItem('category', this.value);
+	// })
 
-	// On selecting the country option
-	$('#countries').on('change', function() {
-		if (this.value == 'all')
-			send_data['country'] = '';
-		else
-			send_data['country'] = this.value;
-		// Get API data with updated filters
-		getAPIData();
-        // Store data in sessionStorage
-        sessionStorage.setItem('country', this.value);
-	})
+	// // On selecting the country option
+	// $('#countries').on('change', function() {
+	// 	if (this.value == 'all')
+	// 		send_data['country'] = '';
+	// 	else
+	// 		send_data['country'] = this.value;
+	// 	// Get API data with updated filters
+	// 	getAPIData();
+ //        // Store data in sessionStorage
+ //        sessionStorage.setItem('country', this.value);
+	// })
 
-    // On selecting the year option
-    $('#years').on('change', function() {
-        if (this.value == 'all')
-            send_data['year'] = '';
-        else
-            send_data['year'] = this.value;
-        // Get API data with updated filters
-        getAPIData();
-        // Store data in sessionStorage
-        sessionStorage.setItem('year', this.value);
-    })
+ //    // On selecting the year option
+ //    $('#years').on('change', function() {
+ //        if (this.value == 'all')
+ //            send_data['year'] = '';
+ //        else
+ //            send_data['year'] = this.value;
+ //        // Get API data with updated filters
+ //        getAPIData();
+ //        // Store data in sessionStorage
+ //        sessionStorage.setItem('year', this.value);
+ //    })
 
-	// Reset the filters
-	$('#display_all').click(function() {
-        resetFilters();
-        getAPIData();
-    })
+	// // Reset the filters
+	// $('#display_all').click(function() {
+ //        resetFilters();
+ //        getAPIData();
+ //    })
 })
 
 // Function to reset all filters

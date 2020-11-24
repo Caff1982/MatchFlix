@@ -1,5 +1,4 @@
 from django.shortcuts import render
-from django.db.models import Max, Min
 from django.views.generic import ListView
 from django.http import JsonResponse
 

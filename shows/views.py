@@ -1,17 +1,83 @@
 from django.shortcuts import render
 from django.http import JsonResponse, HttpResponse
-from rest_framework.generics import ListAPIView
+from django.views.generic import ListView
 
 from .models import Show, Category, Country
 from .serealizers import ShowSerealizers
 from .pagination import StandardResultsSetPagination
 
+from .forms import SearchForm
 
-def show_search(request):
+
+# def show_search(request):
+#     """
+#     Returns the show search template
+#     """
+#     form = SearchForm(request.GET)
+#     if form.is_valid():
+#         title_search = form.cleaned_data['title_search']
+#         category_search = form.cleaned_data['category_search']
+#         country_search = form.cleaned_data['country_search']
+#         year_search = form.cleaned_data['year_search']
+#         print('Title search: ', title_search)
+#         print('Category search: ', category_search)
+#         print('Country search: ', country_search)
+#         print('Year search: ', year_search)
+
+#     else:
+#         print('Invalid form')
+    
+#     return render(request, 'shows/show_search.html', {'form': form})
+
+class ShowSearch(ListView):
     """
-    Returns the show search template
+    Class-based view for controlling show search
     """
-    return render(request, 'shows/show_search.html', {})
+    model = Show
+    template_name = 'shows/show_search.html'
+    paginate_by = 20
+
+    def get_queryset(self):
+        queryset = Show.objects.all()
+        title_search = self.request.GET.get('title')
+        category_search = self.request.GET.get('category')
+        country_search = self.request.GET.get('country')
+        year_search = self.request.GET.get('year')
+
+        print('title_search: ', title_search)
+        print('category_search: ', category_search)
+        print('category_search type: ', type(category_search))
+        print('country_search:', country_search)
+        print('year_search: ', year_search)
+
+        if title_search is not None:
+            if title_search != '':
+                print('title')
+                queryset = queryset.filter(title__icontains=title_search)
+        if category_search is not None:
+            if category_search != '':
+                print('category')
+                queryset = queryset.filter(category__name=category_search)
+        if country_search is not None:
+            if country_search != '':
+                print('country')
+                queryset = queryset.filter(country__name=country_search)
+        if year_search is not None:
+            print('year search ttype: ', type(year_search))
+            if year_search != '0':
+                print('year_search')
+                queryset = queryset.filter(release_year=year_search)
+
+
+        print('len queryset: ', len(queryset))
+        return queryset
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        context['form'] = SearchForm()
+        return context
+
+
 
 def detail_view(request, pk):
     """
@@ -31,7 +97,7 @@ def detail_view(request, pk):
     return render(request, 'shows/detail_view.html', context)
 
 
-class ShowListing(ListAPIView):
+class ShowListing(ListView):
     """
     Uses DRF ListAPIView to provide an API for show search
     """

@@ -3,7 +3,7 @@ from django.urls import path
 from .views import *
 
 urlpatterns = [
-    path('search/', show_search, name='show_search'),
+    path('search/', ShowSearch.as_view(), name='show_search'),
     path('detail/<pk>/', detail_view, name='detail_view'),
     path('show-listing/', ShowListing.as_view(), name='show_listing'),
     path('ajax/categories/', get_categories, name='get_categories'),
