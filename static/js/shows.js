@@ -1,12 +1,20 @@
 var send_data = {}
 
 $(document).ready(function($) {
-	// Get all Categories from Database
-	getCategories();
-	// Get all Countries from Database
-	getCountries();
-    // Get range of release years
-    getYears();
+    // Open modal popup
+    $('.thumbnail').click(function() {
+        console.log('clicked');
+        let modal_id = $(this).attr('id');
+        console.log('modal_id: ', modal_id);
+        $('#modal-popup' + modal_id).show();
+    });
+    // Close modal popup
+    $('.close-btn').click(function() {
+        console.log('close clicked');
+        $('.modal').hide();
+
+    });
+
     // Load previous state from sessionStorage
     // var stored_title = sessionStorage.getItem('title');
     // var stored_category = sessionStorage.getItem('category');
@@ -80,10 +88,6 @@ $(document).ready(function($) {
 
 // Function to reset all filters
 function resetFilters() {
-    sessionStorage.removeItem('title');
-    sessionStorage.removeItem('category');
-    sessionStorage.removeItem('country');
-    sessionStorage.removeItem('year');
 
     $('#title-search').val('');
 	$('#categories').val('all');

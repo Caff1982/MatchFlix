@@ -20,7 +20,65 @@ $(document).ready(function($) {
 
     });
 
+    // Like/Un-like button
+    $('.like-button').on('click', function() {
+      console.log('like button clicked');
+      let url = '/shows/ajax/';
+      url = ($(this).html() == 'Like') ? url += 'add-like/' : url += 'remove-like/';
+      $.ajax({
+        method: "POST",
+        url: url,
+        data: {'show_id': $(this).attr('value'),
+               'csrfmiddlewaretoken': csrf_token},
+        'dataType': 'json',
+      });
+      if ($(this).html() == 'Like') {
+        $(this).html('Remove from likes')
+      }
+      else {
+        $(this).html('Like')
+      }
+    });
+
 });
+
+//For getting CSRF token
+function getCookie(name) {
+          var cookieValue = null;
+          if (document.cookie && document.cookie != '') {
+                var cookies = document.cookie.split(';');
+          for (var i = 0; i < cookies.length; i++) {
+               var cookie = jQuery.trim(cookies[i]);
+          // Does this cookie string begin with the name we want?
+          if (cookie.substring(0, name.length + 1) == (name + '=')) {
+            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+              break;
+             }
+          }
+      }
+ return cookieValue;
+}
+
+//Prepare csrf token
+var csrf_token = getCookie('csrftoken');
+
+// Set button 'active' depending on recommender type
+var split_url = location.href.split('/');
+var rec_type = split_url[split_url.length-2];
+console.log('rec type: ', rec_type);
+
+switch (rec_type) {
+    case 'self':
+        $('#self-btn').addClass('active');
+        break;
+    case 'random':
+        $('#random-btn').addClass('active');
+        break
+    default:
+        $('#friend-btn').addClass('active');
+        break;
+    
+}
 
 // // Close modal popup
 // $(document).click(function(e) {
@@ -141,20 +199,20 @@ function getFriends() {
 // }
 
 
-// Next page button
-$("#next").click(function () {
-    console.log('next clicked')
-    let url = $(this).attr("url");
-    $.ajax({
-        method: 'GET',
-        url: url,
-    });
-})
-// Previous page button
-$("#previous").click(function () {
-    let url = $(this).attr("url");
-    $.ajax({
-        method: 'GET',
-        url: url,
-    });
-})
+// // Next page button
+// $("#next").click(function () {
+//     console.log('next clicked')
+//     let url = $(this).attr("url");
+//     $.ajax({
+//         method: 'GET',
+//         url: url,
+//     });
+// })
+// // Previous page button
+// $("#previous").click(function () {
+//     let url = $(this).attr("url");
+//     $.ajax({
+//         method: 'GET',
+//         url: url,
+//     });
+// })

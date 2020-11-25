@@ -52,29 +52,22 @@ class ShowSearch(ListView):
 
         if title_search is not None:
             if title_search != '':
-                print('title')
                 queryset = queryset.filter(title__icontains=title_search)
         if category_search is not None:
             if category_search != '':
-                print('category')
                 queryset = queryset.filter(category__name=category_search)
         if country_search is not None:
             if country_search != '':
-                print('country')
                 queryset = queryset.filter(country__name=country_search)
         if year_search is not None:
-            print('year search ttype: ', type(year_search))
             if year_search != '0':
-                print('year_search')
                 queryset = queryset.filter(release_year=year_search)
 
-
-        print('len queryset: ', len(queryset))
         return queryset
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
-        context['form'] = SearchForm()
+        context['form'] = SearchForm(self.request.GET)
         return context
 
 

@@ -18,17 +18,21 @@ CATEGORY_CHOICES.insert(0, (None, 'All'))
 countries = Country.objects.all().values_list('name', flat=True)
 COUNTRY_CHOICES = [(c, c) for c in countries]
 COUNTRY_CHOICES.insert(0, (None, 'All'))
-
+   
 class SearchForm(forms.Form):
-    title = forms.CharField(label='Title search', max_length=100, required=False)
+    title = forms.CharField(label='Title search', max_length=100, required=False,
+                            widget=forms.TextInput(attrs={'class': 'form-control'}))
     category = forms.CharField(required=False,
-                               widget=forms.Select(choices=CATEGORY_CHOICES))
+                               widget=forms.Select(choices=CATEGORY_CHOICES,
+                                                   attrs={'class': 'form-control'}))
 
     country = forms.CharField(label='Country search',
                               required=False,
-                              widget=forms.Select(choices=COUNTRY_CHOICES))
+                              widget=forms.Select(choices=COUNTRY_CHOICES,
+                                                  attrs={'class': 'form-control'}))
     year = forms.IntegerField(required=False,
-                              widget=forms.Select(choices=RELEASE_YEAR_RANGE))
+                              widget=forms.Select(choices=RELEASE_YEAR_RANGE,
+                                                  attrs={'class': 'form-control'}))
 
     # def __init__(self, data, **kwargs):
     #     initial = kwargs.get('initial', {})

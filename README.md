@@ -19,3 +19,7 @@ I found [this](https://dev.to/joshwizzy/customizing-django-authentication-using-
 I used The Movie Database (TMDb) API to get images.
 
 The Netflix data is from Kaggle and can be found [here](https://www.kaggle.com/shivamb/netflix-shows).
+
+### TODO
+
+- Get more up-to-date data

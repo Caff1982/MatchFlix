@@ -6,27 +6,27 @@
   <ul class="nav nav-pills nav-fill my-3">
     <li class="nav-item">
       <div class="nav-link rec-type" id="self">
-        <a href="{% url 'recommender_view' type='self' %}">Recommendations for you</a>
+        <a class="btn btn-secondary btn-block" id="self-btn" href="{% url 'recommender_view' type='self' %}">Recommendations for you</a>
       </div>
     </li>
     <li class="nav-item dropdown">
       <div class="nav-link rec-type dropdown-toggle" id="friends" url="{% url 'get_friends' %}" data-toggle="dropdown" role="button" aria-haspopup="true"
       aria-expanded="false">
-        <a href="">Friend Recommendations</a>
+        <a class="btn btn-secondary btn-block" id="friend-btn">Friend Recommendations</a>
       </div>
       <div class="dropdown-menu" id="friends-dropdown">
       </div>
     </li>
     <li class="nav-item">
       <div class="nav-link rec-type" id="random">
-        <a href="{% url 'recommender_view' type='random' %}">Random Recommendations</a>
+        <a class="btn btn-secondary btn-block" id="random-btn" href="{% url 'recommender_view' type='random' %}">Random Recommendations</a>
       </div>
     </li>
   </ul>
 </section>
 <br />
 <section id="results-table">
-	<div class="container-fluid">
+	<div class="container-fluid" id="search-results">
     <div class="row">
       {% if object_list|length == 0 %}
         <h3>You need to like some shows to get recommendations.</h3>
@@ -54,6 +54,13 @@
                     <h5>Rating: {{ show.rating }}</h5>
                     <h5>Duration: {{ show.duration }}</h5>
                     <h5>Description: {{ show.description }}</h5>
+                    <h5><a id="netflix-link" href="https://www.netflix.com/title/{{ show.show_id }}" target="_blank">Watch on Netflix</a></h5>
+
+                    {% if show in user.likes.all %}
+                      <button class="btn btn-dark btn-block like-button" value="{{ show.show_id }}">Remove from likes</button>
+                    {% else %}
+                      <button class="btn btn-dark btn-block like-button" value="{{ show.show_id }}">Like</button>
+                    {% endif %}
                   </div>
                 </div>
               </div>
