@@ -25,7 +25,7 @@ a:hover {
 /* Dashboard */
 .welcome-text {
 	font-size: 1.1rem;
-	max-width: 800px;
+	max-width: 600px;
 	margin-top: 5vh;
 }
 
@@ -40,6 +40,10 @@ a:hover {
 #friend-searchbox {
 	margin-top: 10px;
 	margin-bottom: 10px;
+}
+
+.list-group-item {
+	max-width: 450px;
 }
 
 .nav-item {

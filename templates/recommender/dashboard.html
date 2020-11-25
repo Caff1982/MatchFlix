@@ -5,32 +5,34 @@
 
 	<div class="welcome-text">
 		<h1>Welcome to MatchFlix!</h1>
-		<p>MatchFlix helps you decide what to watch on Netflix. You can also get recommendations for you and a friend. It works by matching shows and movies that are most similar to your likes. To get started simply register, like and then receive recommendations.</p>
+		<p id="about-text">MatchFlix helps you decide what to watch on Netflix. You can also get recommendations for you and a friend. It works by matching shows and movies that are most similar to your likes. To get started simply register, like and then receive recommendations.</p>
 		<p>For more information please view the <a href="https://github.com/Caff1982/MatchFlix/blob/main/README.md">README here.</a></p>
-		<p>To view your profile  <a href="{% url 'profile_view' user.id %}">click here</a></p>
-	</div>
-	{% if user.is_authenticated %}
-	<br />
-	<div class="row">
-		<div class="col-sm">
-			<h3>Friends</h3>
-				{% if user.friends.all|length == 0 %}
-					<p>You don't have any friends yet</p>
-				{% else %}
-					<p>You have {{ user.friends.all| length }} friends</p>
-				{% endif %}
-				<a href="{% url 'friend_search' %}">Search for friends</a>
+		{% if user.is_authenticated %}
+				<p>To view your profile  <a href="{% url 'profile_view' user.id %}">click here</a></p>
 			</div>
-		<div class="col-sm">
-			<h3>Likes</h3>
-			{% if user.likes.all|length == 0 %}
-				<p>You have not liked any shows yet</p>
-			{% else %}
-				<p>You have liked {{ user.likes.all|length }} shows</p>
-			{% endif %}
-			<a href="{% url 'show_search' %}">Search shows/movies</a>
+			<br />
+			<div class="row">
+				<div class="col-sm">
+					<h3>Friends</h3>
+						{% if user.friends.all|length == 0 %}
+							<p>You don't have any friends yet</p>
+						{% else %}
+							<p>You have {{ user.friends.all| length }} friends</p>
+						{% endif %}
+						<a href="{% url 'friend_search' %}">Search for friends</a>
+					</div>
+				<div class="col-sm">
+					<h3>Likes</h3>
+					{% if user.likes.all|length == 0 %}
+						<p>You have not liked any shows yet</p>
+					{% else %}
+						<p>You have liked {{ user.likes.all|length }} shows</p>
+					{% endif %}
+					<a href="{% url 'show_search' %}">Search shows/movies</a>
+				</div>
+			</div>
+		{% else %}
 		</div>
-	</div>
 {% endif %}
 
 {% endblock %}

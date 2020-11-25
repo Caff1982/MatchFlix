@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load templatetags %}
 {% load static %}
 {% block content %}
 
@@ -72,26 +73,28 @@
 		<div class="row justify-content-center">
       <nav aria-label="navigation">
         <ul class="pagination">
-          {% if page_obj.has_previous %}
-            <li class="page-item">
-              <a href="?page={{ page_obj.previous_page_number }}">
-                <button class="btn btn-secondary" id="previous">Previous</button>
-            </li>
-          {% else %}
-            <li class="page-item">
-              <button class="btn btn-secondary disabled" id="previous">Previous</button>
-            </li>
-          {% endif %}
-          {% if page_obj.has_next %}
-            <li class="page-item pull-right">
-              <a href="?page={{ page_obj.next_page_number }}">
-                <button class="btn btn-secondary" id="next">Next</button>
-              </a>
-            </li>
-          {% else %}
-            <li class="page-item pull-right">
-              <button class="btn btn-secondary disabled" id="next">Next</button>
-            </li>
+          {% if is_paginated %}
+            {% if page_obj.has_previous %}
+              <li class="page-item">
+                <a href="?{% url_replace request 'page' page_obj.previous_page_number %}">
+                  <button class="btn btn-secondary" id="previous">Previous</button></a>
+              </li>
+            {% else %}
+              <li class="page-item">
+                <button class="btn btn-secondary disabled" id="previous">Previous</button>
+              </li>
+            {% endif %}
+            {% if page_obj.has_next %}
+              <li class="page-item pull-right">
+                <a href="?{% url_replace request 'page' page_obj.next_page_number %}">
+                  <button class="btn btn-secondary" id="next">Next</button>
+                </a>
+              </li>
+            {% else %}
+              <li class="page-item pull-right">
+                <button class="btn btn-secondary disabled" id="next">Next</button>
+              </li>
+            {% endif %}
           {% endif %}
         </ul>
       </nav>

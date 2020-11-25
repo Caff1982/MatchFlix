@@ -1,6 +1,8 @@
 {%  extends 'base.html' %}
+{% load templatetags %}
 {% load static %}
 {% block content %}
+
 <h1>Search Shows</h1>
 <section class="site_filter">
 	<div class="container-fluid">
@@ -92,7 +94,7 @@
         <ul class="pagination">
           {% if page_obj.has_previous %}
             <li class="page-item">
-              <a href="?page={{ page_obj.previous_page_number }}">
+              <a href="?{% url_replace request 'page' page_obj.previous_page_number %}">
                 <button class="btn btn-secondary" id="previous">Previous</button>
             </li>
           {% else %}
@@ -102,7 +104,7 @@
           {% endif %}
           {% if page_obj.has_next %}
             <li class="page-item pull-right">
-              <a href="?page={{ page_obj.next_page_number }}">
+              <a href="?{% url_replace request 'page' page_obj.next_page_number %}">
                 <button class="btn btn-secondary" id="next">Next</button>
               </a>
             </li>

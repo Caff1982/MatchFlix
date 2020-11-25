@@ -8,17 +8,13 @@ The recommender system uses a content-based algorithm to match user-profiles wit
 
 Going forward, I would like to implement a hybrid system combining content-based with collaborative-filtering. For now however I am happy that content-based is the correct approach due to the low number of users and the 'cold-start problem'.
 
-### Usage
-
-To get the images run 'utils/image_scraper.py'. To populate the database run ' python manage.py populate_db data.csv'. The project can then be run using 'python manage.py runserver'.
-
 ### Acknowledgements
 
 I found [this](https://dev.to/joshwizzy/customizing-django-authentication-using-abstractbaseuser-llg) tutorial very helpful for authentication.
 
 I used The Movie Database (TMDb) API to get images.
 
-The Netflix data is from Kaggle and can be found [here](https://www.kaggle.com/shivamb/netflix-shows).
+The Netflix data is from late 2019 and can be found on Kaggle [here](https://www.kaggle.com/shivamb/netflix-shows).
 
 ### TODO
 

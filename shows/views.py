@@ -38,6 +38,7 @@ class ShowSearch(ListView):
     paginate_by = 20
 
     def get_queryset(self):
+        print('kwargs: ', self.kwargs)
         queryset = Show.objects.all()
         title_search = self.request.GET.get('title')
         category_search = self.request.GET.get('category')
