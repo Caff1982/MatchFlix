@@ -1,14 +1,11 @@
 $(document).ready(function($) {
     // Open modal popup
     $('.thumbnail').click(function() {
-        console.log('clicked');
         let modal_id = $(this).attr('id');
-        console.log('modal_id: ', modal_id);
         $('#modal-popup' + modal_id).show();
     });
     // Close modal popup
     $('.close-btn').click(function() {
-        console.log('close clicked');
         $('.modal').hide();
 
     });
@@ -25,11 +22,12 @@ $(document).ready(function($) {
                'csrfmiddlewaretoken': csrf_token},
         'dataType': 'json',
       });
-      if ($(this).html() == 'Like') {
-        $(this).html('Remove from likes')
+      console.log('this attr class: ', $(this).attr('class'))
+      if ($(this).attr('class') == 'far fa-heart fa-lg like-button') {
+        $(this).attr('class', 'fas fa-heart fa-lg like-button');
       }
       else {
-        $(this).html('Like')
+        $(this).attr('class', 'far fa-heart fa-lg like-button');
       }
     });
 

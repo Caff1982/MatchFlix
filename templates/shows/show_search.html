@@ -67,6 +67,11 @@
                     <img class ="fullsize-image img-fluid" src="{{ show.image_url }}">
                   </div>
                   <div class="col-md">
+                    {% if show in user.likes.all %}
+                      <i class="fas fa-heart fa-lg like-button" value="{{ show.show_id }}"></i>
+                    {% else %}
+                      <i class="far fa-heart fa-lg like-button" value="{{ show.show_id }}"></i>
+                    {% endif %}
                 		<h5>Title: {{ show.title }}</h5>
                     <h5>Year: {{ show.release_year }}</h5>
                     <h5>Director: {{ show.director }}</h5>

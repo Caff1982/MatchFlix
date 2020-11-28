@@ -49,6 +49,11 @@
                     <img class ="fullsize-image img-fluid" src="{{ show.image_url }}">
                   </div>
                   <div class="col-md">
+                    {% if show in user.likes.all %}
+                      <i class="fas fa-heart fa-lg like-button" value="{{ show.show_id }}"></i>
+                    {% else %}
+                      <i class="far fa-heart fa-lg like-button" value="{{ show.show_id }}"></i>
+                    {% endif %}
                     <h5>Title: {{ show.title }}</h5>
                     <h5>Year: {{ show.release_year }}</h5>
                     <h5>Director: {{ show.director }}</h5>
@@ -56,12 +61,6 @@
                     <h5>Duration: {{ show.duration }}</h5>
                     <h5>Description: {{ show.description }}</h5>
                     <h5><a id="netflix-link" href="https://www.netflix.com/title/{{ show.show_id }}" target="_blank">Watch on Netflix</a></h5>
-
-                    {% if show in user.likes.all %}
-                      <button class="btn btn-dark btn-block like-button" value="{{ show.show_id }}">Remove from likes</button>
-                    {% else %}
-                      <button class="btn btn-dark btn-block like-button" value="{{ show.show_id }}">Like</button>
-                    {% endif %}
                   </div>
                 </div>
               </div>

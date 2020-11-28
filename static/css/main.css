@@ -103,6 +103,15 @@ a:hover {
 	color: white;
 }
 
+/* Like icon */
+.like-button {
+	padding-bottom: 20px;
+	padding-top: 10px;
+}
+.fas.fa-heart {
+	color: red;
+}
+
 /* Modal popups */
 .modal {
 	display: none;

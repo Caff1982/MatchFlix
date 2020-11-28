@@ -17,7 +17,6 @@ $(document).ready(function($) {
     $('.close-btn').click(function() {
         console.log('close clicked');
         $('.modal').hide();
-
     });
 
     // Like/Un-like button
@@ -32,11 +31,12 @@ $(document).ready(function($) {
                'csrfmiddlewaretoken': csrf_token},
         'dataType': 'json',
       });
-      if ($(this).html() == 'Like') {
-        $(this).html('Remove from likes')
+      console.log('this attr class: ', $(this).attr('class'))
+      if ($(this).attr('class') == 'far fa-heart fa-lg like-button') {
+        $(this).attr('class', 'fas fa-heart fa-lg like-button');
       }
       else {
-        $(this).html('Like')
+        $(this).attr('class', 'far fa-heart fa-lg like-button');
       }
     });
 

@@ -1,0 +1,137 @@
+body {
+    background-color: #DCDCDC;
+}
+
+a {
+	color: #333333;
+	transition: color 1s;
+}
+
+tr {
+	cursor: pointer;
+}
+
+a:hover {
+	color: red;
+	text-decoration: none;
+}
+
+#netflix-link {
+	font-weight: 550;
+	color: black;
+	cursor: pointer;
+}
+
+/* Dashboard */
+.welcome-text {
+	font-size: 1.1rem;
+	max-width: 600px;
+	margin-top: 5vh;
+}
+
+.card {
+	max-width: 450px;
+	margin: 0 auto;
+	float: none;
+	margin-bottom: 10px;
+	margin-top: 5rem;
+}
+
+#friend-searchbox {
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+.list-group-item {
+	max-width: 450px;
+}
+
+.nav-item {
+	max-width: 400px;
+}
+
+#detail-text {
+	font-size: 1.1rem;
+	max-width: 450px;
+	background-color: white;
+}
+
+#navbarDropdownMenuLink-333:hover {
+	cursor: pointer;
+}
+
+#show-search-bar {
+	padding: 10px 0px 25px 10px;
+}
+
+#navbar-logo {
+	color: red;
+	font-size: 2rem;
+	margin-left: 5vw;
+}
+
+.btn-dark {
+	margin-bottom: 10px;
+	max-width: 400px;
+}
+
+#detail-image {
+	max-width: 450px;
+}
+
+.nav > .nav-item > .active { 
+    background-color: gray; 
+}
+
+.rec-type {
+	font-size: 1.1rem;
+	cursor: pointer;
+}
+
+.thumbnail {
+	max-width: 200px;
+	padding: 22px 22px 22px 22px;
+	cursor: pointer;
+}
+
+.dropdown-toggle[aria-expanded="true"] {
+  background-color: lightgray !important;
+  color: #000 !important;
+}
+
+#friend-btn {
+	color: white;
+}
+
+/* Modal popups */
+.modal {
+	display: none;
+	position: fixed;
+	height: 100%;
+	width: 100%;
+	overflow: auto;
+}
+
+.modal-content {
+  background-color: lightgray;
+  color: #000;
+  margin: 5% 25%;
+  width: 50%;
+  box-shadow: 0 5px 8px 0 rgba(0,0,0,0.2), 0 7px 20px 0 rgba(0,0,0,0.17);
+}
+
+.modal-header {
+	color: #F0F0F0;
+	background-color: #292b2c;
+	padding: 5px 5px;
+}
+
+.close-btn {
+	font-size: 2.5rem;
+	cursor: pointer;
+}
+
+.fullsize-image {
+	margin: auto;
+	max-height: 100%;
+}
