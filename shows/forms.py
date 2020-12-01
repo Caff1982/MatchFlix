@@ -4,8 +4,14 @@ from django.db.models import Max, Min
 
 
 # Get years
-year_range = range(Show.objects.all().aggregate(Min('release_year'))['release_year__min'],
-                   Show.objects.all().aggregate(Max('release_year'))['release_year__max'])
+# try:
+#   year_range = range(Show.objects.all().aggregate(Min('release_year'))['release_year__min'],
+#                      Show.objects.all().aggregate(Max('release_year'))['release_year__max'])
+# except Exception as e:
+#   # Handle error incase database does not yet exist
+  
+year_range = range(1925, 2019)
+
 RELEASE_YEAR_RANGE = [(year, str(year)) for year in reversed(year_range)]
 RELEASE_YEAR_RANGE.insert(0, (0, 'All'))
 
